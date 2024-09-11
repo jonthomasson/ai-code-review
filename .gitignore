@@ -40,3 +40,14 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/.vs
+/.vs/github-ai-review
+/.vs/github-ai-review/config
+/.vs/github-ai-review/config/applicationhost.config
+/.vs/github-ai-review/FileContentIndex
+/.vs/github-ai-review/FileContentIndex/0cac0e4a-f455-4c26-9735-5286a56444e4.vsidx
+/.vs/github-ai-review/FileContentIndex/de54bb08-7fd3-4dee-b78a-b661c0cbf9f1.vsidx
+/.vs/github-ai-review/v17
+/.vs/github-ai-review/v17/.wsuo
+/.vs/github-ai-review/v17/DocumentLayout.json
+/.vs/slnx.sqlite
