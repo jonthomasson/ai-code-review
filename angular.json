@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "github-ai-review": {
+    "ai-code-review": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/github-ai-review",
+            "outputPath": "dist/ai-code-review",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "github-ai-review:build:production"
+              "buildTarget": "ai-code-review:build:production"
             },
             "development": {
-              "buildTarget": "github-ai-review:build:development"
+              "buildTarget": "ai-code-review:build:development"
             }
           },
           "defaultConfiguration": "development"
