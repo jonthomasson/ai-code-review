@@ -34,15 +34,15 @@ export class LoginComponent implements OnInit {
 
   loginWithGitHub() {
     const provider = new GithubAuthProvider();
+    provider.addScope('repo');  // Request access to private repositories
+
     signInWithPopup(this.auth, provider)
       .then((result) => {
         const credential = GithubAuthProvider.credentialFromResult(result);
         const token = credential?.accessToken;
 
         if (token) {
-          // Store the token securely in localStorage
           localStorage.setItem('githubToken', token);
-          // Navigate to home page after successful login
           this.router.navigate(['/home']);
         }
       })
@@ -50,4 +50,5 @@ export class LoginComponent implements OnInit {
         console.error('GitHub Sign-in Error:', error);
       });
   }
+
 }

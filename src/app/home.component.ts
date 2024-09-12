@@ -27,10 +27,17 @@ import { CommonModule } from '@angular/common';
         </select>
       </div>
 
-      <div *ngIf="selectedPR">
-        <h2>Pull Request Details</h2>
-        <pre>{{ selectedPR | json }}</pre>
-      </div>
+      <div *ngIf="pullRequestFiles.length > 0">
+  <h2>File Changes:</h2>
+  <ul>
+    <li *ngFor="let file of pullRequestFiles">
+      <p><strong>{{ file.filename }}</strong></p>
+      <p>Status: {{ file.status }}</p>
+      <p>Changes: {{ file.additions }} additions, {{ file.deletions }} deletions</p>
+      <pre>{{ file.patch }}</pre>
+    </li>
+  </ul>
+</div>
     </div>
   `,
 })
@@ -41,6 +48,7 @@ export class HomeComponent implements OnInit {
   repositories: any[] = [];
   pullRequests: any[] = [];
   selectedPR: any = null;
+  pullRequestFiles: any[] = [];
 
   ngOnInit() {
     const token = localStorage.getItem('githubToken');
@@ -50,7 +58,7 @@ export class HomeComponent implements OnInit {
   }
 
   fetchGitHubRepositories(token: string) {
-    fetch('https://api.github.com/user/repos', {
+    fetch('https://api.github.com/user/repos?per_page=100', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -72,6 +80,21 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  fetchPullRequestFiles(token: string, owner: string, repo: string, pullNumber: number) {
+    fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${pullNumber}/files`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.pullRequestFiles = data;
+        console.log('Pull Request Files:', this.pullRequestFiles);
+      })
+      .catch(error => console.error('Error fetching pull request files:', error));
+  }
+
+
   fetchPullRequests(token: string, owner: string, repo: string) {
     fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
       headers: {
@@ -87,9 +110,23 @@ export class HomeComponent implements OnInit {
 
   onPRChange(event: any) {
     const prUrl = event.target.value;
-    const selectedPR = this.pullRequests.find((pr) => pr.url === prUrl);
+    const selectedPR = this.pullRequests.find(pr => pr.url === prUrl);
     this.selectedPR = selectedPR;
+
+    // Fetch file changes for the selected pull request
+    if (this.selectedPR) {
+      const token = localStorage.getItem('githubToken');
+
+      if (token) {
+        this.fetchPullRequestFiles(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
+      } else {
+        console.error('No GitHub token found in localStorage');
+        // Handle the case when the token is null (e.g., redirect to login or show an error)
+      }
+    }
+
   }
+
 
   logout() {
     // Clear the localStorage and log out the user
