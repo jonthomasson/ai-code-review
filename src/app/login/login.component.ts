@@ -8,12 +8,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div style="text-align:center">
-      <h1>Login to GitHub</h1>
-      <button *ngIf="!isAuthenticated" (click)="loginWithGitHub()">Login with GitHub</button>
-    </div>
-  `,
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
   private auth: Auth = inject(Auth);

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeAI Review - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #1a1a2e, #16213e);
+      min-height: 100vh;
+      color: #ffffff;
+    }
+
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .dropdown-menu {
+      background-color: #16213e;
+    }
+
+    .dropdown-item {
+      color: #ffffff;
+    }
+
+      .dropdown-item:hover {
+        background-color: #1a1a2e;
+      }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: none;
+    }
+
+    .code-block {
+      background-color: #1a1a2e;
+      color: #ffffff;
+      padding: 1rem;
+      border-radius: 0.25rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    .code-line {
+      display: flex;
+      margin-bottom: 0.25rem;
+    }
+
+    .line-number {
+      color: #6c757d;
+      padding-right: 1rem;
+      user-select: none;
+    }
+
+    .code-content {
+      flex-grow: 1;
+    }
+
+    .code-addition {
+      background-color: rgba(40, 167, 69, 0.2);
+    }
+
+    .code-deletion {
+      background-color: rgba(220, 53, 69, 0.2);
+    }
+
+      .code-addition::before,
+      .code-deletion::before {
+        margin-right: 0.5rem;
+      }
+
+    .code-addition::before {
+      content: '+';
+      color: #28a745;
+    }
+
+    .code-deletion::before {
+      content: '-';
+      color: #dc3545;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+      .logo:hover {
+        color: #ffffff;
+      }
+
+    .logo-icon {
+      font-size: 2rem;
+      transform: rotate(270deg) scaleX(-1);
+      margin-right: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="logo" href="#">
+        <i class="bi bi-github logo-icon"></i>
+        <span>odeAI Review</span>
+      </a>
+      <div class="ms-auto">
+        <div class="dropdown">
+          <button class="btn btn-link text-light" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle fs-4"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <select class="form-select" aria-label="Select Repository">
+          <option selected>Select Repository</option>
+          <option value="1">Repository 1</option>
+          <option value="2">Repository 2</option>
+          <option value="3">Repository 3</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <select class="form-select" aria-label="Select Pull Request">
+          <option selected>Select Pull Request</option>
+          <option value="1">Pull Request #123</option>
+          <option value="2">Pull Request #456</option>
+          <option value="3">Pull Request #789</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">
+            Pull Request Change 1
+          </div>
+          <div class="card-body">
+            <div class="code-block">
+              <div class="code-line">
+                <span class="line-number">1</span>
+                <span class="code-content">function calculateTotal(items) {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">2</span>
+                <span class="code-content code-deletion">  return items.reduce((total, item) => total + item.price, 0);</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">3</span>
+                <span class="code-content code-addition">  return items.reduce((total, item) => {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">4</span>
+                <span class="code-content code-addition">    return total + (item.price * (1 - item.discount));</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">5</span>
+                <span class="code-content code-addition">  }, 0);</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">6</span>
+                <span class="code-content">}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">
+            AI Suggestion for Change 1
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Optimization Suggestion</h5>
+            <p class="card-text">The `calculateTotal` function now accounts for item discounts, which is good. However, consider using `Array.prototype.reduce` with an initial accumulator object to calculate both the total and any other relevant statistics in a single pass, improving performance for large datasets.</p>
+
+            <h5 class="card-title mt-4">Code Style</h5>
+            <p class="card-text">Add a comment explaining the discount calculation logic to improve maintainability. Consider handling edge cases, such as when `item.discount` is undefined or not a number.</p>
+
+            <h5 class="card-title mt-4">Testing Suggestion</h5>
+            <p class="card-text">Implement unit tests for this function to ensure it behaves correctly under various scenarios, including edge cases like empty arrays or items with different discount values.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">
+            Pull Request Change 2
+          </div>
+          <div class="card-body">
+            <div class="code-block">
+              <div class="code-line">
+                <span class="line-number">1</span>
+                <span class="code-content">async function fetchUserData(userId) {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">2</span>
+                <span class="code-content code-deletion">  const response = await fetch(`/api/users/${userId}`);</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">3</span>
+                <span class="code-content code-deletion">  return response.json();</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">4</span>
+                <span class="code-content code-addition">  try {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">5</span>
+                <span class="code-content code-addition">    const response = await fetch(`/api/users/${userId}`);</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">6</span>
+                <span class="code-content code-addition">    if (!response.ok) {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">7</span>
+                <span class="code-content code-addition">      throw new Error('Failed to fetch user data');</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">8</span>
+                <span class="code-content code-addition">    }</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">9</span>
+                <span class="code-content code-addition">    return response.json();</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">10</span>
+                <span class="code-content code-addition">  } catch (error) {</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">11</span>
+                <span class="code-content code-addition">    console.error('Error fetching user data:', error);</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">12</span>
+                <span class="code-content code-addition">    throw error;</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">13</span>
+                <span class="code-content code-addition">  }</span>
+              </div>
+              <div class="code-line">
+                <span class="line-number">14</span>
+                <span class="code-content">}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header">
+            AI Suggestion for Change 2
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Error Handling Improvement</h5>
+            <p class="card-text">The `fetchUserData` function now includes proper error handling, which is a significant improvement. Consider adding a timeout to the fetch request to handle cases where the server doesn't respond in a timely manner. Also, you might want to implement a retry mechanism for transient errors.</p>
+
+            <h5 class="card-title mt-4">Code Style</h5>
+            <p class="card-text">Add comments explaining the error handling strategy. Consider creating custom error classes for different types of errors (e.g., NetworkError, NotFoundError) to provide more specific error handling upstream.</p>
+
+            <h5 class="card-title mt-4">Testing Suggestion</h5>
+            <p class="card-text">Implement unit tests for this function to ensure it behaves correctly under various scenarios, including different HTTP status codes and network errors. Use a mocking library to simulate different API responses and network conditions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

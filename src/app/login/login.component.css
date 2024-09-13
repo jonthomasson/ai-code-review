@@ -1,0 +1,60 @@
+body {
+  display: flex;
+  align-items: center;
+
+}
+
+.logo-icon {
+  font-size: 2rem;
+  transform: rotate(270deg) scaleX(-1);
+  margin-right: 0.25rem;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: white;
+}
+
+.btn-github {
+  background-color: #24292e;
+  color: white;
+}
+
+  .btn-github:hover {
+    background-color: #2f363d;
+    color: white;
+  }
+
+.btn-google {
+  background-color: #4285F4;
+  color: white;
+}
+
+  .btn-google:hover {
+    background-color: #357ae8;
+    color: white;
+  }
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #6c757d;
+}
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #6c757d;
+  }
+
+  .divider::before {
+    margin-right: .25em;
+  }
+
+  .divider::after {
+    margin-left: .25em;
+  }
