@@ -13,7 +13,7 @@
           <li><a class="dropdown-item" href="#">Profile</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Logout</a></li>
+          <li><a class="dropdown-item" href="#" (click)="logout()">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -21,57 +21,34 @@
 </nav>
 
 <div class="container mt-4">
+  <!-- Dropdown for selecting repositories -->
   <div class="row mb-4">
     <div class="col-md-6 mb-3 mb-md-0">
-      <select class="form-select" aria-label="Select Repository">
+      <select class="form-select" aria-label="Select Repository" (change)="onRepoChange($event)">
         <option selected>Select Repository</option>
-        <option value="1">Repository 1</option>
-        <option value="2">Repository 2</option>
-        <option value="3">Repository 3</option>
+        <option *ngFor="let repo of repositories" [value]="repo.name">{{ repo.name }}</option>
       </select>
     </div>
+
+    <!-- Dropdown for selecting pull requests -->
     <div class="col-md-6">
-      <select class="form-select" aria-label="Select Pull Request">
+      <select class="form-select" aria-label="Select Pull Request" (change)="onPRChange($event)">
         <option selected>Select Pull Request</option>
-        <option value="1">Pull Request #123</option>
-        <option value="2">Pull Request #456</option>
-        <option value="3">Pull Request #789</option>
+        <option *ngFor="let pr of pullRequests" [value]="pr.url">{{ pr.title }}</option>
       </select>
     </div>
   </div>
 
-  <div class="row mb-4">
+  <!-- Display changes for pull requests -->
+  <div class="row mb-4" *ngFor="let file of pullRequestFiles">
     <div class="col-md-6">
       <div class="card h-100">
         <div class="card-header">
-          Pull Request Change 1
+          {{ file.filename }}
         </div>
-        <div class="card-body" ngNonBindable>
+        <div class="card-body" >
           <div class="code-block">
-            <div class="code-line">
-              <span class="line-number">1</span>
-              <span class="code-content">function calculateTotal(items) </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">2</span>
-              <span class="code-content code-deletion">  return items.reduce((total, item) => total + item.price, 0);</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">3</span>
-              <span class="code-content code-addition">  return items.reduce((total, item) => </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">4</span>
-              <span class="code-content code-addition">    return total + (item.price * (1 - item.discount));</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">5</span>
-              <span class="code-content code-addition">  , 0);</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">6</span>
-              <span class="code-content"></span>
-            </div>
+            <pre>{{ file.patch }}</pre>
           </div>
         </div>
       </div>
@@ -79,104 +56,11 @@
     <div class="col-md-6">
       <div class="card h-100">
         <div class="card-header">
-          AI Suggestion for Change 1
+          AI Suggestion for {{ file.filename }}
         </div>
         <div class="card-body">
           <h5 class="card-title">Optimization Suggestion</h5>
-          <p class="card-text">The `calculateTotal` function now accounts for item discounts, which is good. However, consider using `Array.prototype.reduce` with an initial accumulator object to calculate both the total and any other relevant statistics in a single pass, improving performance for large datasets.</p>
-
-          <h5 class="card-title mt-4">Code Style</h5>
-          <p class="card-text">Add a comment explaining the discount calculation logic to improve maintainability. Consider handling edge cases, such as when `item.discount` is undefined or not a number.</p>
-
-          <h5 class="card-title mt-4">Testing Suggestion</h5>
-          <p class="card-text">Implement unit tests for this function to ensure it behaves correctly under various scenarios, including edge cases like empty arrays or items with different discount values.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-header">
-          Pull Request Change 2
-        </div>
-        <div class="card-body" ngNonBindable>
-          <div class="code-block">
-            <div class="code-line">
-              <span class="line-number">1</span>
-              <span class="code-content">async function fetchUserData(userId) </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">2</span>
-              <span class="code-content code-deletion">  const response = await fetch();</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">3</span>
-              <span class="code-content code-deletion">  return response.json();</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">4</span>
-              <span class="code-content code-addition">  try </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">5</span>
-              <span class="code-content code-addition">    const response = await fetch();</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">6</span>
-              <span class="code-content code-addition">    if (!response.ok) </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">7</span>
-              <span class="code-content code-addition">      throw new Error('Failed to fetch user data');</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">8</span>
-              <span class="code-content code-addition">    </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">9</span>
-              <span class="code-content code-addition">    return response.json();</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">10</span>
-              <span class="code-content code-addition">   catch (error) </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">11</span>
-              <span class="code-content code-addition">    console.error('Error fetching user data:', error);</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">12</span>
-              <span class="code-content code-addition">    throw error;</span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">13</span>
-              <span class="code-content code-addition">  </span>
-            </div>
-            <div class="code-line">
-              <span class="line-number">14</span>
-              <span class="code-content"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-header">
-          AI Suggestion for Change 2
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Error Handling Improvement</h5>
-          <p class="card-text">The `fetchUserData` function now includes proper error handling, which is a significant improvement. Consider adding a timeout to the fetch request to handle cases where the server doesn't respond in a timely manner. Also, you might want to implement a retry mechanism for transient errors.</p>
-
-          <h5 class="card-title mt-4">Code Style</h5>
-          <p class="card-text">Add comments explaining the error handling strategy. Consider creating custom error classes for different types of errors (e.g., NetworkError, NotFoundError) to provide more specific error handling upstream.</p>
-
-          <h5 class="card-title mt-4">Testing Suggestion</h5>
-          <p class="card-text">Implement unit tests for this function to ensure it behaves correctly under various scenarios, including different HTTP status codes and network errors. Use a mocking library to simulate different API responses and network conditions.</p>
+          <p class="card-text">Add suggestions for code optimization and improvement here.</p>
         </div>
       </div>
     </div>
