@@ -68,7 +68,7 @@ body {
     margin-right: 0.5rem;
   }
 
-.code-addition::before {
+/*.code-addition::before {
   content: '+';
   color: #28a745;
 }
@@ -76,7 +76,7 @@ body {
 .code-deletion::before {
   content: '-';
   color: #dc3545;
-}
+}*/
 
 .logo {
   display: flex;

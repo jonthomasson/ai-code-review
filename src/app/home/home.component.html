@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <a class="logo" href="#">
       <i class="bi bi-github logo-icon"></i>
-      <span>CodeAI Review</span>
+      <span>odeAI Review</span>
     </a>
     <div class="ms-auto">
       <div class="dropdown">
@@ -48,11 +48,10 @@
         </div>
         <div class="card-body">
           <div class="code-block">
-            <pre>
-            <span *ngFor="let line of file.patch.split('\n')" [ngClass]="{'code-addition': line.startsWith('+'), 'code-deletion': line.startsWith('-')}">
-                {{ line }}
-              </span>
-            </pre>
+            <div *ngFor="let line of file.patch.split('\n'); let i = index">
+              <span class="line-number">{{i + 1}}</span>
+              <span class="code-content" [ngClass]="{'code-addition': line.startsWith('+'), 'code-deletion': line.startsWith('-')}">{{ line }}</span>
+            </div>
           </div>
         </div>
       </div>
