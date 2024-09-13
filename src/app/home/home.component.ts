@@ -19,11 +19,17 @@ export class HomeComponent implements OnInit {
   pullRequests: any[] = [];
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
+  userPhotoUrl: string | null = null;
 
   ngOnInit() {
     const token = localStorage.getItem('githubToken');
     if (token) {
       this.fetchGitHubRepositories(token);
+
+      const photoURL = localStorage.getItem('githubPhotoURL');
+      if (photoURL) {
+        this.userPhotoUrl = photoURL;
+      }
     }
   }
 

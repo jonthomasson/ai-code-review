@@ -39,6 +39,11 @@ export class LoginComponent implements OnInit {
 
         if (token) {
           localStorage.setItem('githubToken', token);
+          const user = result.user;
+          if (user.photoURL) {
+            localStorage.setItem('githubPhotoURL', user.photoURL);  // Store avatar URL
+          }
+
           this.router.navigate(['/home']);
         }
       })
