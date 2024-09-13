@@ -89,19 +89,34 @@ export class HomeComponent implements OnInit {
     const selectedPR = this.pullRequests.find(pr => pr.url === prUrl);
     this.selectedPR = selectedPR;
 
-    // Fetch file changes for the selected pull request
+    // Fetch file changes and additional PR details
     if (this.selectedPR) {
       const token = localStorage.getItem('githubToken');
 
       if (token) {
         this.fetchPullRequestFiles(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
+
+        // Optionally fetch more detailed information about the selected pull request if needed
+        this.fetchPullRequestDetails(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
       } else {
         console.error('No GitHub token found in localStorage');
-        // Handle the case when the token is null (e.g., redirect to login or show an error)
       }
     }
-
   }
+
+  fetchPullRequestDetails(token: string, owner: string, repo: string, pullNumber: number) {
+    fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${pullNumber}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.selectedPR = { ...this.selectedPR, ...data };
+      })
+      .catch(error => console.error('Error fetching pull request details:', error));
+  }
+
 
 
   logout() {
