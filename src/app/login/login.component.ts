@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, onAuthStateChanged, signInWithPopup, GithubAuthProvider } from '@angular/fire/auth';
+import { Auth, onAuthStateChanged, signInWithPopup, GithubAuthProvider, GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
           const user = result.user;
           if (user.photoURL) {
-            localStorage.setItem('githubPhotoURL', user.photoURL);  // Store GitHub avatar URL
+            localStorage.setItem('photoURL', user.photoURL);  // Store GitHub avatar URL
           }
 
           // Get Firebase user token (firebaseToken)
@@ -54,6 +54,27 @@ export class LoginComponent implements OnInit {
       })
       .catch((error) => {
         console.error('GitHub Sign-in Error:', error);
+      });
+  }
+
+  loginWithGoogle() {
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(this.auth, provider)
+      .then(async (result) => {
+        const user = result.user;
+        if (user.photoURL) {
+          localStorage.setItem('photoURL', user.photoURL);  // Store Google avatar URL
+        }
+
+        // Get Firebase user token (firebaseToken)
+        const firebaseToken = await user.getIdToken();  // Retrieve Firebase token
+        localStorage.setItem('firebaseToken', firebaseToken);  // Store Firebase token for API
+
+        this.router.navigate(['/home']);
+      })
+      .catch((error) => {
+        console.error('Google Sign-in Error:', error);
       });
   }
 

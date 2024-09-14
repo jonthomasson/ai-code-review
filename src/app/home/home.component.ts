@@ -22,21 +22,25 @@ export class HomeComponent implements OnInit {
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
   userPhotoUrl: string | null = null;
+  userEmail: string | null | undefined = '';
 
   ngOnInit() {
     const token = localStorage.getItem('githubToken');
     if (token) {
       this.fetchGitHubRepositories(token);
+    }
 
-      const photoURL = localStorage.getItem('githubPhotoURL');
-      if (photoURL) {
-        this.userPhotoUrl = photoURL;
-      }
+    const photoURL = localStorage.getItem('photoURL');
+    if (photoURL) {
+      this.userPhotoUrl = photoURL;
+    }
+    if (this.auth) {
+      this.userEmail = this.auth.currentUser?.email;
     }
   }
 
   fetchGitHubRepositories(token: string) {
-    fetch('https://api.github.com/user/repos?per_page=100', {
+    fetch('https://api.github.com/user/repos?per_page=100&visibility=all&affiliation=owner,collaborator,organization_member', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
