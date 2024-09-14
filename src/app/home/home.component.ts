@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit {
   }
 
   sendFileChangesToApi(fileChanges: any[]) {
-    const apiEndpoint = 'https://localhost:7148/api/Review'; // Replace with your .NET Core API endpoint
+    const apiEndpoint = 'https://localhost:7148/api/review'; // Replace with your .NET Core API endpoint
     const token = localStorage.getItem('firebaseToken');
 
     // Map over fileChanges to extract only the filename and patch
