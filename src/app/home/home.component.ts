@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   fetchGitHubRepositories(token: string) {
-    fetch('https://api.github.com/user/repos?per_page=100&visibility=all&affiliation=owner,collaborator,organization_member', {
+    fetch('https://api.github.com/user/repos?per_page=100&type=all', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
