@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
   pullRequestFiles: any[] = [];
   userPhotoUrl: string | null = null;
   userEmail: string | null | undefined = '';
+  isGoogleUser: boolean = false;
+  repoUrl: string = '';
 
   ngOnInit() {
     const token = localStorage.getItem('githubToken');
@@ -36,6 +38,17 @@ export class HomeComponent implements OnInit {
     }
     if (this.auth) {
       this.userEmail = this.auth.currentUser?.email;
+      this.isGoogleUser = this.auth.currentUser?.providerData.some(provider => provider.providerId === 'google.com') || false;
+    }
+  }
+
+  onRepoUrlInput(event: any) {
+    const repoUrl = event.target.value;
+    const match = repoUrl.match(/^https:\/\/github\.com\/([^\/]+)\/([^\/]+)$/);
+    if (match) {
+      const owner = match[1];
+      const repo = match[2];
+      this.fetchPullRequests('', owner, repo);
     }
   }
 
@@ -63,10 +76,15 @@ export class HomeComponent implements OnInit {
   }
 
   fetchPullRequestFiles(token: string, owner: string, repo: string, pullNumber: number) {
+    const headers: any = {};
+
+    // Conditionally add the Authorization header if a token is provided
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${pullNumber}/files`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+     headers,
     })
       .then(response => response.json())
       .then(data => {
@@ -80,10 +98,15 @@ export class HomeComponent implements OnInit {
   }
 
   fetchPullRequests(token: string, owner: string, repo: string) {
+    const headers: any = {};
+
+    // Conditionally add the Authorization header if a token is provided
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -99,25 +122,27 @@ export class HomeComponent implements OnInit {
 
     // Fetch file changes and additional PR details
     if (this.selectedPR) {
-      const token = localStorage.getItem('githubToken');
+      const token = localStorage.getItem('githubToken') ?? '';
 
-      if (token) {
-        this.fetchPullRequestFiles(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
+      this.fetchPullRequestFiles(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
 
-        // Optionally fetch more detailed information about the selected pull request if needed
-        this.fetchPullRequestDetails(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
-      } else {
-        console.error('No GitHub token found in localStorage');
-      }
+      // Optionally fetch more detailed information about the selected pull request if needed
+      this.fetchPullRequestDetails(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
+
     }
   }
 
-  
-  fetchPullRequestDetails(token: string, owner: string, repo: string, pullNumber: number) {
+
+  fetchPullRequestDetails(token: string | null, owner: string, repo: string, pullNumber: number) {
+    const headers: any = {};
+
+    // Conditionally add the Authorization header if a token is provided
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${pullNumber}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: headers,
     })
       .then(response => response.json())
       .then(data => {
@@ -125,6 +150,7 @@ export class HomeComponent implements OnInit {
       })
       .catch(error => console.error('Error fetching pull request details:', error));
   }
+
 
   sendFileChangesToApi(fileChanges: any[]) {
     const apiEndpoint = 'https://localhost:7148/api/review'; // Replace with your .NET Core API endpoint
