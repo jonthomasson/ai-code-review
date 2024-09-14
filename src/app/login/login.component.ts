@@ -34,7 +34,9 @@ export class LoginComponent implements OnInit {
 
     signInWithPopup(this.auth, provider)
       .then((result) => {
+        console.log(result);
         const credential = GithubAuthProvider.credentialFromResult(result);
+        console.log(credential);
         const token = credential?.accessToken;
 
         if (token) {
