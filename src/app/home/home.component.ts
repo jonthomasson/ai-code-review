@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   userEmail: string | null | undefined = '';
   isGoogleUser: boolean = false;
   repoUrl: string = '';
+  aiReviewResult: { standards: string, score: number } | null = null;
 
   ngOnInit() {
     const token = localStorage.getItem('githubToken');
@@ -168,8 +169,8 @@ export class HomeComponent implements OnInit {
       }
     })
       .subscribe((response: any) => {
-        console.log('AI Review response:', response);
         this.mapAiSuggestionsToFiles(response.codeReview);
+        this.aiReviewResult = { standards: response.standards, score: response.score };
       }, error => {
         console.error('Error sending file changes to API:', error);
       });
