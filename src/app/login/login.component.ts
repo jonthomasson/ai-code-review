@@ -33,18 +33,21 @@ export class LoginComponent implements OnInit {
     provider.addScope('repo');  // Request access to private repositories
 
     signInWithPopup(this.auth, provider)
-      .then((result) => {
-        console.log(result);
+      .then(async (result) => {
         const credential = GithubAuthProvider.credentialFromResult(result);
-        console.log(credential);
-        const token = credential?.accessToken;
+        const githubToken = credential?.accessToken;
 
-        if (token) {
-          localStorage.setItem('githubToken', token);
+        if (githubToken) {
+          localStorage.setItem('githubToken', githubToken);  // Store GitHub token
+
           const user = result.user;
           if (user.photoURL) {
-            localStorage.setItem('githubPhotoURL', user.photoURL);  // Store avatar URL
+            localStorage.setItem('githubPhotoURL', user.photoURL);  // Store GitHub avatar URL
           }
+
+          // Get Firebase user token (firebaseToken)
+          const firebaseToken = await user.getIdToken();  // Retrieve Firebase token
+          localStorage.setItem('firebaseToken', firebaseToken);  // Store Firebase token for API
 
           this.router.navigate(['/home']);
         }
@@ -53,5 +56,6 @@ export class LoginComponent implements OnInit {
         console.error('GitHub Sign-in Error:', error);
       });
   }
+
 
 }
