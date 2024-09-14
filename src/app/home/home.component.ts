@@ -167,13 +167,24 @@ export class HomeComponent implements OnInit {
         Authorization: `Bearer ${token}`
       }
     })
-      .subscribe(response => {
+      .subscribe((response: any) => {
         console.log('AI Review response:', response);
-        // Handle the response from your API (e.g., display AI suggestions)
+        this.mapAiSuggestionsToFiles(response.codeReview);
       }, error => {
         console.error('Error sending file changes to API:', error);
       });
   }
+
+  mapAiSuggestionsToFiles(aiCodeReviews: any[]) {
+    this.pullRequestFiles = this.pullRequestFiles.map(file => {
+      const aiReview = aiCodeReviews.find(review => review.fileName === file.filename);
+      return {
+        ...file,
+        aiReview: aiReview ? aiReview.review : 'No suggestions.'
+      };
+    });
+  }
+
 
 
   logout() {
