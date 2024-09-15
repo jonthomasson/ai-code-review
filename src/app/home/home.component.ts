@@ -4,11 +4,12 @@ import { inject } from '@angular/core';
 import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, NgxSkeletonLoaderModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   isGoogleUser: boolean = false;
   repoUrl: string = '';
   aiReviewResult: { standards: string, score: number } | null = null;
+  isLoading: boolean = true;
 
   ngOnInit() {
     const token = localStorage.getItem('githubToken');
@@ -154,6 +156,7 @@ export class HomeComponent implements OnInit {
 
 
   sendFileChangesToApi(fileChanges: any[]) {
+    this.isLoading = true;
     const apiEndpoint = 'https://localhost:7148/api/review'; // Replace with your .NET Core API endpoint
     const token = localStorage.getItem('firebaseToken');
 
@@ -171,7 +174,9 @@ export class HomeComponent implements OnInit {
       .subscribe((response: any) => {
         this.mapAiSuggestionsToFiles(response.codeReview);
         this.aiReviewResult = { standards: response.standards, score: response.score };
+        this.isLoading = false;
       }, error => {
+        this.isLoading = false;
         console.error('Error sending file changes to API:', error);
       });
   }

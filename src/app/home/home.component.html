@@ -124,7 +124,15 @@
           AI Review for {{ file.filename }}
         </div>
         <div class="card-body">
-          <p class="card-text">{{ file.aiReview }}</p>
+          <ngx-skeleton-loader *ngIf="isLoading"
+                               appearance="custom-content"
+                               [theme]="{'height': '100%','width': '100%','border-radius': '10px'}">
+          </ngx-skeleton-loader>
+
+          <ng-container *ngIf="!isLoading">
+            <h5 class="card-title">Optimization Suggestion</h5>
+            <p class="card-text">{{ file.aiReview }}</p>
+          </ng-container>
         </div>
       </div>
     </div>
