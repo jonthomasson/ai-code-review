@@ -69,6 +69,8 @@ export class HomeComponent implements OnInit {
   }
 
   onRepoChange(event: any) {
+    this.selectedPR = null;
+    this.pullRequestFiles = [];
     const repoName = event.target.value;
     const token = localStorage.getItem('githubToken');
     const selectedRepo = this.repositories.find((repo) => repo.name === repoName);
