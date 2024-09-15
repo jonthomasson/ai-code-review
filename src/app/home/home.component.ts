@@ -30,19 +30,19 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
 
   ngOnInit() {
-    const token = localStorage.getItem('githubToken');
-    if (token) {
-      this.fetchGitHubRepositories(token);
-    }
+    //const token = localStorage.getItem('githubToken');
+    //if (token) {
+    //  this.fetchGitHubRepositories(token);
+    //}
 
-    const photoURL = localStorage.getItem('photoURL');
-    if (photoURL) {
-      this.userPhotoUrl = photoURL;
-    }
-    if (this.auth) {
-      this.userEmail = this.auth.currentUser?.email;
-      this.isGoogleUser = this.auth.currentUser?.providerData.some(provider => provider.providerId === 'google.com') || false;
-    }
+    //const photoURL = localStorage.getItem('photoURL');
+    //if (photoURL) {
+    //  this.userPhotoUrl = photoURL;
+    //}
+    //if (this.auth) {
+    //  this.userEmail = this.auth.currentUser?.email;
+    //  this.isGoogleUser = this.auth.currentUser?.providerData.some(provider => provider.providerId === 'google.com') || false;
+    //}
   }
 
   onRepoUrlInput(event: any) {
