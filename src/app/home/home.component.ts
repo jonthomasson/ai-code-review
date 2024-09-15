@@ -1,10 +1,10 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
-import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -14,22 +14,22 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  private auth: Auth = inject(Auth);
-  private router = inject(Router);
-  private http = inject(HttpClient);  // Inject HttpClient
+  private authService: AuthService = inject(AuthService);
 
   repositories: any[] = [];
   pullRequests: any[] = [];
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
-  userPhotoUrl: string | null = null;
-  userEmail: string | null | undefined = '';
   isGoogleUser: boolean = false;
   repoUrl: string = '';
   aiReviewResult: { standards: string, score: number } | null = null;
   isLoading: boolean = true;
+  currentUser = this.authService.currentUser;
+  
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
+    
     //const token = localStorage.getItem('githubToken');
     //if (token) {
     //  this.fetchGitHubRepositories(token);
@@ -196,15 +196,6 @@ export class HomeComponent implements OnInit {
 
 
   logout() {
-    // Clear the localStorage and log out the user
-    localStorage.removeItem('githubToken');
-    signOut(this.auth)
-      .then(() => {
-        // Redirect to the login page after successful logout
-        this.router.navigate(['/']);
-      })
-      .catch((error) => {
-        console.error('Error logging out:', error);
-      });
+    this.authService.logout();
   }
 }

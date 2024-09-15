@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { GithubAuthProvider, AuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { AuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class AuthService {
 
   currentUser = signal<User | null>(null);
   loginState = signal<boolean>(false);
-
+  
   constructor() {
     //setup auth observer
     onAuthStateChanged(this.auth, (user) => {
@@ -26,8 +26,10 @@ export class AuthService {
         this.router.navigate(['/login']);
       }
     });
+
   }
 
+  
   public login(provider: AuthProvider) {
     signInWithPopup(this.auth, provider)
       .then(async (result) => {
@@ -41,6 +43,17 @@ export class AuthService {
       .catch((error) => {
         // Log error and handle specific error cases (if needed)
         console.error('OAuth Sign-in Error:', error);
+      });
+  }
+
+  logout() {
+    signOut(this.auth)
+      .then(() => {
+        // Redirect to the login page after successful logout
+        this.router.navigate(['/']);
+      })
+      .catch((error) => {
+        console.error('Error logging out:', error);
       });
   }
  
