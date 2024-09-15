@@ -119,18 +119,17 @@
     </div>
 
     <div class="col-md-6">
-      <div class="card h-100">
+      <ngx-skeleton-loader *ngIf="isLoading"
+                           appearance="custom-content"
+                           [theme]="{'height': '100%','width': '100%','border-radius': '10px'}">
+      </ngx-skeleton-loader>
+
+      <div class="card h-100" *ngIf="!isLoading">
         <div class="card-header">
           AI Review for {{ file.filename }}
         </div>
         <div class="card-body">
-          <ngx-skeleton-loader *ngIf="isLoading"
-                               appearance="custom-content"
-                               [theme]="{'height': '100%','width': '100%','border-radius': '10px'}">
-          </ngx-skeleton-loader>
-
-          <ng-container *ngIf="!isLoading">
-            <h5 class="card-title">Optimization Suggestion</h5>
+          <ng-container >
             <p class="card-text">{{ file.aiReview }}</p>
           </ng-container>
         </div>
