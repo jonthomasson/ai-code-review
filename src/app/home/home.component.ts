@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AuthService } from '../shared/services/auth.service';
+import { NavbarComponent } from './ui/navbar/navbar.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, NgxSkeletonLoaderModule],
+  imports: [CommonModule, NavbarComponent, HttpClientModule, NgxSkeletonLoaderModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -195,7 +196,5 @@ export class HomeComponent implements OnInit {
 
 
 
-  logout() {
-    this.authService.logout();
-  }
+ 
 }
