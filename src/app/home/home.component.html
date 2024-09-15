@@ -59,7 +59,7 @@
 
       <!-- AI Suggestion Details Button -->
       <button class="btn btn-secondary ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#aiDetails" aria-expanded="false" aria-controls="aiDetails">
-        AI Suggestion Details <i class="bi bi-chevron-down"></i>
+        AI Review Details <i class="bi bi-chevron-down"></i>
       </button>
 
       <!-- Collapsible Pull Request Details -->
@@ -87,7 +87,7 @@
       <!-- Collapsible AI Suggestion Details -->
       <div class="collapse mt-3" id="aiDetails">
         <div class="card">
-          <div class="card-header">AI Suggestion Information</div>
+          <div class="card-header">AI Review Information</div>
           <div class="card-body">
             <p><strong>Score:</strong> {{ aiReviewResult?.score || 'N/A' }}</p>
             <p><strong>Standards Applied:</strong> {{ aiReviewResult?.standards || 'N/A' }}</p>
