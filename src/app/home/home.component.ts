@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AuthService } from '../shared/services/auth.service';
 import { NavbarComponent } from './ui/navbar/navbar.component';
+import { GithubService } from '../shared/services/github.service';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   currentUser = this.authService.currentUser;
   
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient, private githubService: GithubService) {}
 
   ngOnInit() {
     
