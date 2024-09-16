@@ -25,14 +25,14 @@ export class HomeComponent implements OnInit {
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
   aiReviewResult: { standards: string, score: number } | null = null;
-  hasGithub: boolean = this.authService.hasGithub();
+  hasGithub = this.authService.hasGithub;
 
   constructor(private githubService: GithubService, private aiReviewService: AiReviewService) {
    
   }
 
   ngOnInit() {
-    if (this.hasGithub) {
+    if (this.hasGithub()) {
       this.repositories$ = this.githubService.getGitHubRepositories();
     }
   }

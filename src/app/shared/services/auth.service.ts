@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AuthProvider, OAuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
@@ -12,6 +12,7 @@ export class AuthService {
 
   currentUser = signal<User | null>(null);
   loginState = signal<boolean>(false);
+  hasGithub = computed<boolean>(() => this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false);
   
   constructor() {
     //setup auth observer
@@ -27,10 +28,6 @@ export class AuthService {
       }
     });
 
-  }
-
-  public hasGithub(): boolean {
-    return this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false;
   }
 
   public async getFirebaseToken(): Promise<string | null> {
