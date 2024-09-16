@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
@@ -11,4 +11,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 })
 export class PrViewComponent {
   pullRequestFiles = input<any[]>([]);
+  isLoading: boolean = true;
+  constructor() {
+    effect(() => {
+      //monitor when aiReview updates and mark isLoading as false
+      this.isLoading = !this.pullRequestFiles().some(p => p.aiReview);
+    });
+  }
 }

@@ -21,7 +21,7 @@
     </div>
 
     <div class="col-md-6">
-      <ngx-skeleton-loader *ngIf="!file.aiReview"
+      <ngx-skeleton-loader *ngIf="isLoading"
                            appearance="custom-content"
                            [theme]="{
    'background-color': 'rgba(255, 255, 255, 0.1)',
@@ -32,7 +32,7 @@
  }">
       </ngx-skeleton-loader>
 
-      <div class="card h-100" *ngIf="file.aiReview">
+      <div class="card h-100" *ngIf="!isLoading">
         <div class="card-header">
           AI Review for {{ file.filename }}
         </div>
