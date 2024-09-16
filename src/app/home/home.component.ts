@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '@shared/services/auth.service';
 import { NavbarComponent } from './ui/navbar/navbar.component';
-import { GithubService } from '../shared/services/github.service';
-import { GitHubRepository } from '../shared/models/github';
+import { GithubService } from '@shared/services/github.service';
+import { GitHubRepository } from '@shared/models/github';
 import { Observable } from 'rxjs';
-import { AiReviewService } from '../shared/services/ai-review.service';
+import { AiReviewService } from '@shared/services/ai-review.service';
 import { PrDetailsComponent } from './ui/pr-details/pr-details.component';
 import { PrViewComponent } from './ui/pr-view/pr-view.component';
 

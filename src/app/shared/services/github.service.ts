@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
-import { GitHubRepository, GitHubPullRequest, GitHubPullRequestFile } from '../models/github';
-import { AuthService } from './auth.service';
+import { GitHubRepository, GitHubPullRequest, GitHubPullRequestFile } from '@shared/models/github';
+import { AuthService } from '@shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root'

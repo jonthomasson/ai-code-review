@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { GitHubPullRequest } from '../../../shared/models/github';
-import { CodeReviewResponse } from '../../../shared/models/ai-review';
 
 @Component({
   selector: 'app-pr-details',

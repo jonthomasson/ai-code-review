@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GithubAuthProvider, GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '@shared/services/auth.service';
 
 @Component({
   selector: 'app-login',

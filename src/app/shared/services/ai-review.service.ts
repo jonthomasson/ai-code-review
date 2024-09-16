@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CodeReviewResponse, FileChanges } from '../models/ai-review';
-import { AuthService } from './auth.service';
+import { CodeReviewResponse, FileChanges } from '@shared/models/ai-review';
+import { AuthService } from '@shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
