@@ -11,5 +11,4 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 })
 export class PrViewComponent {
   pullRequestFiles = input<any[]>([]);
-  isLoading = input<boolean>(true);
 }

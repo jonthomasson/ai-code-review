@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -28,11 +27,10 @@ export class HomeComponent implements OnInit {
   isGoogleUser: boolean = false;
   repoUrl: string = '';
   aiReviewResult: { standards: string, score: number } | null = null;
-  isLoading: boolean = true;
   currentUser = this.authService.currentUser;
   hasGithub: boolean = this.authService.hasGithub();
 
-  constructor(private http: HttpClient, private githubService: GithubService, private aiReviewService: AiReviewService) {
+  constructor(private githubService: GithubService, private aiReviewService: AiReviewService) {
    
   }
 
@@ -125,7 +123,6 @@ export class HomeComponent implements OnInit {
   }
 
   sendFileChangesToApi(fileChanges: any[]) {
-    this.isLoading = true;
 
     // Map over fileChanges to extract only the filename and patch
     const fileChangePayload = fileChanges.map(file => ({
@@ -138,10 +135,8 @@ export class HomeComponent implements OnInit {
         next: (response: any) => {
           this.mapAiSuggestionsToFiles(response.codeReview);
           this.aiReviewResult = { standards: response.standards, score: response.score };
-          this.isLoading = false;
         },
         error: (error) => {
-          this.isLoading = false;
           console.error('Error sending file changes to API:', error);
         }
       });
