@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
   aiReviewResult: { standards: string, score: number } | null = null;
   currentUser = this.authService.currentUser;
   hasGithub: boolean = this.authService.hasGithub();
+  NewField: string = "hi, test";
 
   constructor(private githubService: GithubService, private aiReviewService: AiReviewService) {
    
