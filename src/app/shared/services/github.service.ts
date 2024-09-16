@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { GitHubRepository, GitHubPullRequest, GitHubPullRequestFile } from '../models/github';
 import { AuthService } from './auth.service';
 
@@ -27,9 +27,16 @@ export class GithubService {
   }
 
   getGitHubRepositories(): Observable<GitHubRepository[]> {
-    const headers = this.createHeaders();
-    return this.http.get<GitHubRepository[]>(`${this.apiBase}/user/repos?per_page=100&type=all`, { headers });
+      const headers = this.createHeaders();
+      return this.http.get<GitHubRepository[]>(`${this.apiBase}/user/repos?per_page=100&type=all`, { headers })
+        .pipe(
+          catchError((error: HttpErrorResponse) => {
+            console.error('Error fetching GitHub repositories:', error.message);
+            return of([]);  
+          })
+        );
   }
+
 
   getPullRequests(owner: string, repo: string): Observable<GitHubPullRequest[]> {
     const headers = this.createHeaders();

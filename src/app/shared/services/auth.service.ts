@@ -57,6 +57,7 @@ export class AuthService {
   logout() {
     signOut(this.auth)
       .then(() => {
+        sessionStorage.removeItem('oauthToken');
         // Redirect to the login page after successful logout
         this.router.navigate(['/']);
       })

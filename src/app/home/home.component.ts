@@ -1,24 +1,25 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, Signal } from '@angular/core';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AuthService } from '../shared/services/auth.service';
 import { NavbarComponent } from './ui/navbar/navbar.component';
 import { GithubService } from '../shared/services/github.service';
+import { GitHubRepository } from '../shared/models/github';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, HttpClientModule, NgxSkeletonLoaderModule],
+  imports: [CommonModule, NavbarComponent, NgxSkeletonLoaderModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
 
-  repositories: any[] = [];
+  repositories$: Observable<GitHubRepository[]> | undefined;
   pullRequests: any[] = [];
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
@@ -28,13 +29,14 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   currentUser = this.authService.currentUser;
   hasGithub: boolean = this.authService.hasGithub();
-  
-  constructor(private router: Router, private http: HttpClient, private githubService: GithubService) {}
+
+  constructor(private http: HttpClient, private githubService: GithubService) {
+   
+  }
 
   ngOnInit() {
-
     if (this.hasGithub) {
-      this.getGitHubRepositories();
+      this.repositories$ = this.githubService.getGitHubRepositories();
     }
   }
 
@@ -48,27 +50,33 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getGitHubRepositories() {
-    this.githubService.getGitHubRepositories().subscribe(
-      (data) => {
-        this.repositories = data;
-      },
-      (error) => console.error('Error fetching repositories:', error)
-    );
+  //getGitHubRepositories() {
+  //  this.githubService.getGitHubRepositories().subscribe(
+  //    (data) => {
+  //      this.repositories = data;
+  //    },
+  //    (error) => console.error('Error fetching repositories:', error)
+  //  );
 
-  }
+  //}
 
   onRepoChange(event: any) {
     this.selectedPR = null;
     this.pullRequestFiles = [];
     const repoName = event.target.value;
     const token = localStorage.getItem('githubToken');
-    const selectedRepo = this.repositories.find((repo) => repo.name === repoName);
 
-    if (selectedRepo && token) {
-      this.fetchPullRequests(token, selectedRepo.owner.login, repoName);
-    }
+    // Subscribe to the repositories$ observable
+    this.repositories$?.subscribe(repositories => {
+      const selectedRepo = repositories.find(repo => repo.name === repoName);
+
+      if (selectedRepo && token) {
+        this.fetchPullRequests(token, selectedRepo.owner.login, repoName);
+      }
+    });
   }
+
+
 
   fetchPullRequestFiles(token: string, owner: string, repo: string, pullNumber: number) {
     const headers: any = {};
@@ -79,7 +87,7 @@ export class HomeComponent implements OnInit {
     }
 
     fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${pullNumber}/files`, {
-     headers,
+      headers,
     })
       .then(response => response.json())
       .then(data => {
@@ -185,5 +193,9 @@ export class HomeComponent implements OnInit {
 
 
 
- 
+
+}
+
+function WritableSignal<T>(arg0: never[]) {
+  throw new Error('Function not implemented.');
 }

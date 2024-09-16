@@ -14,7 +14,7 @@
       <div class="col-md-6 mb-3 mb-md-0">
         <select class="form-select" aria-label="Select Repository" (change)="onRepoChange($event)">
           <option selected>Select Repository</option>
-          <option *ngFor="let repo of repositories" [value]="repo.name">{{ repo.name }}</option>
+          <option *ngFor="let repo of repositories$ | async" [value]="repo.name">{{ repo.name }}</option>
         </select>
       </div>
     </ng-template>
