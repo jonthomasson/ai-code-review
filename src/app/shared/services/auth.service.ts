@@ -11,7 +11,6 @@ export class AuthService {
   private router: Router = inject(Router);
 
   currentUser = signal<User | null>(null);
-  loginState = signal<boolean>(false);
   hasGithub = computed<boolean>(() => this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false);
   
   constructor() {
@@ -19,11 +18,9 @@ export class AuthService {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.currentUser.set(user);
-        this.loginState.set(true);
         this.router.navigate(['/home']);
       } else {
         this.currentUser.set(null);
-        this.loginState.set(false);
         this.router.navigate(['/login']);
       }
     });
