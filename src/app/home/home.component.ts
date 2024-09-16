@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit {
 
   onRepoChange(event: any) {
     this.selectedPR = null;
+    this.aiReviewResult = null;
     this.pullRequestFiles = [];
     const repoName = event.target.value;
 
@@ -93,6 +94,7 @@ export class HomeComponent implements OnInit {
 
 
   onPRChange(event: any) {
+    this.aiReviewResult = null;
     const prUrl = event.target.value;
     const selectedPR = this.pullRequests.find(pr => pr.url === prUrl);
     this.selectedPR = selectedPR;
