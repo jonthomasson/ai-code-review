@@ -108,30 +108,22 @@ export class HomeComponent implements OnInit {
       this.getPullRequestFiles(this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
 
       // Optionally fetch more detailed information about the selected pull request if needed
-      this.fetchPullRequestDetails(token, this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
+      this.getPullRequestDetails(this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
 
     }
   }
 
-
-  fetchPullRequestDetails(token: string | null, owner: string, repo: string, pullNumber: number) {
-    const headers: any = {};
-
-    // Conditionally add the Authorization header if a token is provided
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
-    fetch(`https://api.github.com/repos/${owner}/${repo}/pulls/${pullNumber}`, {
-      headers: headers,
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.selectedPR = { ...this.selectedPR, ...data };
-      })
-      .catch(error => console.error('Error fetching pull request details:', error));
+  getPullRequestDetails(owner: string, repo: string, pullNumber: number) {
+    this.githubService.getPullRequestDetails(owner, repo, pullNumber)
+      .subscribe({
+        next: (data) => {
+          this.selectedPR = { ...this.selectedPR, ...data };
+        },
+        error: (error) => {
+          console.error('Error fetching pull request details:', error);
+        }
+      });
   }
-
 
   sendFileChangesToApi(fileChanges: any[]) {
     this.isLoading = true;
