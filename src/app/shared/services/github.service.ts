@@ -29,14 +29,7 @@ export class GithubService {
   getGitHubRepositories(): Observable<GitHubRepository[]> {
       const headers = this.createHeaders();
       return this.http.get<GitHubRepository[]>(`${this.apiBase}/user/repos?per_page=100&type=all`, { headers })
-        .pipe(
-          catchError((error: HttpErrorResponse) => {
-            console.error('Error fetching GitHub repositories:', error.message);
-            return of([]);  
-          })
-        );
   }
-
 
   getPullRequests(owner: string, repo: string): Observable<GitHubPullRequest[]> {
     const headers = this.createHeaders();

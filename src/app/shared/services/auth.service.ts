@@ -33,6 +33,14 @@ export class AuthService {
     return this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false;
   }
 
+  public async getFirebaseToken(): Promise<string | null> {
+    const user = this.currentUser();
+    if (user) {
+      return await user.getIdToken(true);
+    }
+    return null;
+  }
+
   public getOauthToken(): string | null {
     return sessionStorage.getItem('oauthToken');
   }
@@ -58,8 +66,6 @@ export class AuthService {
     signOut(this.auth)
       .then(() => {
         sessionStorage.removeItem('oauthToken');
-        // Redirect to the login page after successful logout
-        this.router.navigate(['/']);
       })
       .catch((error) => {
         console.error('Error logging out:', error);
