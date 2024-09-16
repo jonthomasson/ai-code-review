@@ -9,11 +9,12 @@ import { GithubService } from '../shared/services/github.service';
 import { GitHubRepository } from '../shared/models/github';
 import { Observable } from 'rxjs';
 import { AiReviewService } from '../shared/services/ai-review.service';
+import { PrDetailsComponent } from './ui/pr-details/pr-details.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, NgxSkeletonLoaderModule],
+  imports: [CommonModule, NavbarComponent, NgxSkeletonLoaderModule, PrDetailsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
