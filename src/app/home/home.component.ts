@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
   isGoogleUser: boolean = false;
   repoUrl: string = '';
   aiReviewResult: { standards: string, score: number } | null = null;
-  currentUser = this.authService.currentUser;
   hasGithub: boolean = this.authService.hasGithub();
 
   constructor(private githubService: GithubService, private aiReviewService: AiReviewService) {
