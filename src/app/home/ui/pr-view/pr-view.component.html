@@ -1,1 +1,48 @@
-<p>pr-view works!</p>
+<ng-content *ngIf="pullRequestFiles().length > 0">
+  <div class="row mb-4" *ngFor="let file of pullRequestFiles()">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">
+          {{ file.filename }}
+        </div>
+        <div class="card-body">
+          <div class="code-block">
+            <ng-content *ngIf="file.patch">
+              <div *ngFor="let line of file.patch.split('\n'); let i = index">
+                <span class="line-number">{{ i + 1 }}</span>
+                <span class="code-content" [ngClass]="{'code-addition': line.startsWith('+'), 'code-deletion': line.startsWith('-')}">
+                  {{ line }}
+                </span>
+              </div>
+            </ng-content>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <ngx-skeleton-loader *ngIf="isLoading()"
+                           appearance="custom-content"
+                           [theme]="{
+   'background-color': 'rgba(255, 255, 255, 0.1)',
+   'border-radius': '10px',
+   'height': '100%',
+   'width': '100%',
+   'backdrop-filter': 'blur(10px)'
+ }">
+      </ngx-skeleton-loader>
+
+      <div class="card h-100" *ngIf="!isLoading()">
+        <div class="card-header">
+          AI Review for {{ file.filename }}
+        </div>
+        <div class="card-body">
+          <ng-container>
+            <p class="card-text">{{ file.aiReview }}</p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ng-content>

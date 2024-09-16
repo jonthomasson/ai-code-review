@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AuthService } from '../shared/services/auth.service';
 import { NavbarComponent } from './ui/navbar/navbar.component';
 import { GithubService } from '../shared/services/github.service';
@@ -10,11 +9,12 @@ import { GitHubRepository } from '../shared/models/github';
 import { Observable } from 'rxjs';
 import { AiReviewService } from '../shared/services/ai-review.service';
 import { PrDetailsComponent } from './ui/pr-details/pr-details.component';
+import { PrViewComponent } from './ui/pr-view/pr-view.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, NgxSkeletonLoaderModule, PrDetailsComponent],
+  imports: [CommonModule, NavbarComponent, PrDetailsComponent, PrViewComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -104,8 +104,6 @@ export class HomeComponent implements OnInit {
 
     // Fetch file changes and additional PR details
     if (this.selectedPR) {
-      const token = localStorage.getItem('githubToken') ?? '';
-
       this.getPullRequestFiles(this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
 
       // Optionally fetch more detailed information about the selected pull request if needed
