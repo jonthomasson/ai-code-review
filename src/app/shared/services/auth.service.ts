@@ -27,7 +27,6 @@ export class AuthService {
         this.router.navigate(['/login']);
       }
     });
-
   }
 
   public async getFirebaseToken(): Promise<string | null> {
@@ -68,6 +67,4 @@ export class AuthService {
         console.error('Error logging out:', error);
       });
   }
- 
-  
 }
