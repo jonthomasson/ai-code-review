@@ -24,8 +24,6 @@ export class HomeComponent implements OnInit {
   pullRequests: any[] = [];
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
-  isGoogleUser: boolean = false;
-  repoUrl: string = '';
   aiReviewResult: { standards: string, score: number } | null = null;
   hasGithub: boolean = this.authService.hasGithub();
 
