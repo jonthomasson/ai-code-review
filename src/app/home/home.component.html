@@ -84,12 +84,14 @@
           </div>
           <div class="card-body">
             <div class="code-block">
-              <div *ngFor="let line of file.patch.split('\n'); let i = index">
-                <span class="line-number">{{ i + 1 }}</span>
-                <span class="code-content" [ngClass]="{'code-addition': line.startsWith('+'), 'code-deletion': line.startsWith('-')}">
-                  {{ line }}
-                </span>
-              </div>
+              <ng-content *ngIf="file.patch">
+                <div *ngFor="let line of file.patch.split('\n'); let i = index">
+                  <span class="line-number">{{ i + 1 }}</span>
+                  <span class="code-content" [ngClass]="{'code-addition': line.startsWith('+'), 'code-deletion': line.startsWith('-')}">
+                    {{ line }}
+                  </span>
+                </div>
+              </ng-content>
             </div>
           </div>
         </div>
