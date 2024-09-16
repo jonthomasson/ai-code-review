@@ -31,20 +31,16 @@
 
 
 
-  <!-- Collapsible Pull Request Details (No TS Changes Required) -->
   <div *ngIf="selectedPR" class="row mb-4">
     <div class="col-md-12">
-      <!-- Pull Request Details Button -->
       <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#prDetails" aria-expanded="false" aria-controls="prDetails">
         Pull Request Details <i class="bi bi-chevron-down"></i>
       </button>
 
-      <!-- AI Suggestion Details Button -->
-      <button class="btn btn-secondary ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#aiDetails" aria-expanded="false" aria-controls="aiDetails">
+      <button class="btn btn-secondary ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#aiDetails" aria-expanded="false" aria-controls="aiDetails" *ngIf="aiReviewResult">
         AI Review Details <i class="bi bi-chevron-down"></i>
       </button>
 
-      <!-- Collapsible Pull Request Details -->
       <div class="collapse mt-3" id="prDetails">
         <div class="card">
           <div class="card-header">Pull Request Information</div>
@@ -66,7 +62,6 @@
         </div>
       </div>
 
-      <!-- Collapsible AI Suggestion Details -->
       <div class="collapse mt-3" id="aiDetails">
         <div class="card">
           <div class="card-header">AI Review Information</div>
@@ -80,7 +75,6 @@
   </div>
 
 
-  <!-- Display changes for pull requests -->
   <ng-content *ngIf="pullRequestFiles.length > 0">
     <div class="row mb-4" *ngFor="let file of pullRequestFiles">
       <div class="col-md-6">
