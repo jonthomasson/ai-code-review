@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { AuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { AuthProvider, OAuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -29,19 +29,27 @@ export class AuthService {
 
   }
 
+  public hasGithub(): boolean {
+    return this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false;
+  }
+
+  public getOauthToken(): string | null {
+    return sessionStorage.getItem('oauthToken');
+  }
+
   
   public login(provider: AuthProvider) {
     signInWithPopup(this.auth, provider)
       .then(async (result) => {
-        //// Retrieve the OAuth access token if needed
-        //const credential = OAuthProvider.credentialFromResult(result);
-        //const token = credential?.accessToken;
-        //console.log('OAuth Token:', token);
+        //Retrieve the OAuth access token if needed
+        const credential = OAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
 
-        console.log('Signed in successfully:', result);
+        if (token) {
+          sessionStorage.setItem('oauthToken', token); //oauth token can be used later when using github api.
+        }
       })
       .catch((error) => {
-        // Log error and handle specific error cases (if needed)
         console.error('OAuth Sign-in Error:', error);
       });
   }

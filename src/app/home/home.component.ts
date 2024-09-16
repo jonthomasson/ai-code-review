@@ -27,24 +27,15 @@ export class HomeComponent implements OnInit {
   aiReviewResult: { standards: string, score: number } | null = null;
   isLoading: boolean = true;
   currentUser = this.authService.currentUser;
+  hasGithub: boolean = this.authService.hasGithub();
   
   constructor(private router: Router, private http: HttpClient, private githubService: GithubService) {}
 
   ngOnInit() {
-    
-    //const token = localStorage.getItem('githubToken');
-    //if (token) {
-    //  this.fetchGitHubRepositories(token);
-    //}
 
-    //const photoURL = localStorage.getItem('photoURL');
-    //if (photoURL) {
-    //  this.userPhotoUrl = photoURL;
-    //}
-    //if (this.auth) {
-    //  this.userEmail = this.auth.currentUser?.email;
-    //  this.isGoogleUser = this.auth.currentUser?.providerData.some(provider => provider.providerId === 'google.com') || false;
-    //}
+    if (this.hasGithub) {
+      this.getGitHubRepositories();
+    }
   }
 
   onRepoUrlInput(event: any) {
@@ -57,17 +48,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  fetchGitHubRepositories(token: string) {
-    fetch('https://api.github.com/user/repos?per_page=100&type=all', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
+  getGitHubRepositories() {
+    this.githubService.getGitHubRepositories().subscribe(
+      (data) => {
         this.repositories = data;
-      })
-      .catch((error) => console.error('Error fetching repositories:', error));
+      },
+      (error) => console.error('Error fetching repositories:', error)
+    );
+
   }
 
   onRepoChange(event: any) {

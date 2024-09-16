@@ -1,5 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { GitHubRepository, GitHubPullRequest, GitHubPullRequestFile } from '../models/github';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,33 +10,39 @@ import { Injectable } from '@angular/core';
 export class GithubService {
   apiBase: string = 'https://api.github.com';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  private createHeaders(token: string | null): HttpHeaders {
+  private createHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
-    if (token && token.trim() !== '') {
-      headers = headers.set('Authorization', `Bearer ${token}`);
+
+    // Only add Authorization header if AuthService indicates GitHub is connected
+    if (this.authService.hasGithub()) {
+      const token = this.authService.getOauthToken();
+      if (token && token.trim() !== '') {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      }
     }
+
     return headers;
   }
 
-  getGitHubRepositories(token: string | null | '') {
-    const headers = this.createHeaders(token);
-    return this.http.get(`${this.apiBase}/user/repos?per_page=100&type=all`, { headers });
+  getGitHubRepositories(): Observable<GitHubRepository[]> {
+    const headers = this.createHeaders();
+    return this.http.get<GitHubRepository[]>(`${this.apiBase}/user/repos?per_page=100&type=all`, { headers });
   }
 
-  getPullRequests(token: string | null | '', owner: string, repo: string) {
-    const headers = this.createHeaders(token);
-    return this.http.get(`${this.apiBase}/repos/${owner}/${repo}/pulls`, { headers });
+  getPullRequests(owner: string, repo: string): Observable<GitHubPullRequest[]> {
+    const headers = this.createHeaders();
+    return this.http.get<GitHubPullRequest[]>(`${this.apiBase}/repos/${owner}/${repo}/pulls`, { headers });
   }
 
-  getPullRequestFiles(token: string | null | '', owner: string, repo: string, pullNumber: number) {
-    const headers = this.createHeaders(token);
-    return this.http.get(`${this.apiBase}/repos/${owner}/${repo}/pulls/${pullNumber}/files`, { headers });
+  getPullRequestFiles(owner: string, repo: string, pullNumber: number): Observable<GitHubPullRequestFile[]> {
+    const headers = this.createHeaders();
+    return this.http.get<GitHubPullRequestFile[]>(`${this.apiBase}/repos/${owner}/${repo}/pulls/${pullNumber}/files`, { headers });
   }
 
-  getPullRequestDetails(token: string | null | '', owner: string, repo: string, pullNumber: number) {
-    const headers = this.createHeaders(token);
-    return this.http.get(`${this.apiBase}/repos/${owner}/${repo}/pulls/${pullNumber}`, { headers });
+  getPullRequestDetails(owner: string, repo: string, pullNumber: number): Observable<GitHubPullRequest> {
+    const headers = this.createHeaders();
+    return this.http.get<GitHubPullRequest>(`${this.apiBase}/repos/${owner}/${repo}/pulls/${pullNumber}`, { headers });
   }
 }
