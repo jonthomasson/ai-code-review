@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { OAuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { AuthProviderType } from '@shared/models/auth';
 import { AuthProviderFactory } from '@shared/services/auth-provider.factory';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthService {
   currentUser = signal<User | null>(null);
   hasGithub = computed<boolean>(() => this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false);
   
-  constructor(private authProviderFactory: AuthProviderFactory) {
+  constructor(private authProviderFactory: AuthProviderFactory, private toastr: ToastrService) {
     //setup auth observer
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
@@ -35,6 +36,7 @@ export class AuthService {
         return await user.getIdToken(true);
       } catch (error) {
         console.log(error);
+        this.toastr.error('Error retrieving token');
         return null;
       }
     }
@@ -58,6 +60,7 @@ export class AuthService {
         if (token) {
           sessionStorage.setItem('oauthToken', token); //oauth token can be used later when using github api.
         }
+        this.toastr.success(`Logged in successfully with ${providerType}`);
       })
       .catch((error) => {
         console.error('OAuth Sign-in Error:', error);
