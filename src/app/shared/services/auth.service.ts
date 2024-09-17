@@ -31,7 +31,12 @@ export class AuthService {
   public async getFirebaseToken(): Promise<string | null> {
     const user = this.currentUser();
     if (user) {
-      return await user.getIdToken(true);
+      try {
+        return await user.getIdToken(true);
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
     }
     return null;
   }
