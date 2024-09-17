@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { GithubAuthProvider, GoogleAuthProvider } from '@angular/fire/auth';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@shared/services/auth.service';
 import { AuthProviderType } from '@shared/models/auth';
