@@ -1,0 +1,76 @@
+/* GitHub Button */
+.btn-github {
+  background-color: #24292e;
+  color: white;
+}
+
+  .btn-github:hover {
+    background-color: #2f363d;
+    color: white;
+  }
+
+/* Google Button */
+.btn-google {
+  background-color: #4285F4;
+  color: white;
+}
+
+  .btn-google:hover {
+    background-color: #357ae8;
+    color: white;
+  }
+
+/* Microsoft Button */
+.btn-microsoft {
+  background-color: #2F2F2F;
+  color: white;
+}
+
+  .btn-microsoft:hover {
+    background-color: #242424;
+    color: white;
+  }
+
+/* Facebook Button */
+.btn-facebook {
+  background-color: #3b5998;
+  color: white;
+}
+
+  .btn-facebook:hover {
+    background-color: #2d4373;
+    color: white;
+  }
+
+/* Apple Button */
+.btn-apple {
+  background-color: #000000;
+  color: white;
+}
+
+  .btn-apple:hover {
+    background-color: #333333;
+    color: white;
+  }
+
+/* Yahoo Button */
+.btn-yahoo {
+  background-color: #410093;
+  color: white;
+}
+
+  .btn-yahoo:hover {
+    background-color: #5f00cc;
+    color: white;
+  }
+
+/* Twitter Button */
+.btn-twitter {
+  background-color: #1DA1F2;
+  color: white;
+}
+
+  .btn-twitter:hover {
+    background-color: #0d8bec;
+    color: white;
+  }

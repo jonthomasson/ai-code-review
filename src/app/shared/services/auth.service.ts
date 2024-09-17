@@ -1,7 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { AuthProvider, OAuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { OAuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { AuthProviderType } from '@shared/models/auth';
+import { AuthProviderFactory } from '@shared/services/auth-provider.factory';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class AuthService {
   currentUser = signal<User | null>(null);
   hasGithub = computed<boolean>(() => this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false);
   
-  constructor() {
+  constructor(private authProviderFactory: AuthProviderFactory) {
     //setup auth observer
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
@@ -39,7 +41,9 @@ export class AuthService {
   }
 
   
-  public login(provider: AuthProvider) {
+  public login(providerType: AuthProviderType) {
+    const provider = this.authProviderFactory.createAuthProvider(providerType);
+
     signInWithPopup(this.auth, provider)
       .then(async (result) => {
         //Retrieve the OAuth access token if needed

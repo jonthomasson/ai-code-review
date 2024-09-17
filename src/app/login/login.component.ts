@@ -1,37 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { GithubAuthProvider, GoogleAuthProvider } from '@angular/fire/auth';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@shared/services/auth.service';
+import { AuthProviderType } from '@shared/models/auth';
+import { LoginButtonsComponent } from './ui/login-buttons/login-buttons.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoginButtonsComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   constructor(private authService: AuthService) {
 
   }
 
-  ngOnInit() {
-
+  login(providerType: AuthProviderType) {
+    this.authService.login(providerType);
   }
-
-  loginWithGitHub() {
-    const provider = new GithubAuthProvider();
-    provider.addScope('repo');  // Request access to private repositories
-
-    this.authService.login(provider);
-  }
-
-  loginWithGoogle() {
-    const provider = new GoogleAuthProvider();
-
-    this.authService.login(provider);
-  }
-
-
 }
