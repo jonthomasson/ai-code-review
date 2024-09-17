@@ -10,16 +10,7 @@
           <p>AI-Powered Code Review for Your Pull Requests</p>
         </div>
 
-        <div class="d-grid gap-2 mb-3">
-          <button class="btn btn-github" type="button" (click)="loginWithGitHub()">
-            <i class="bi bi-github"></i>
-            Continue with GitHub
-          </button>
-          <button class="btn btn-google" type="button" (click)="loginWithGoogle()">
-            <i class="bi bi-google"></i>
-            Continue with Google
-          </button>
-        </div>
+       <app-login-buttons (login)="login($event)"></app-login-buttons>
 
       </div>
 

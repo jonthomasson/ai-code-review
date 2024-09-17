@@ -1,0 +1,41 @@
+body {
+  background: linear-gradient(to bottom right, #1a1a2e, #16213e);
+  min-height: 100vh;
+  color: #ffffff;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: white;
+}
+
+.code-block {
+  background-color: #1a1a2e;
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.line-number {
+  color: #6c757d;
+  padding-right: 1rem;
+  user-select: none;
+}
+
+.code-content {
+  flex-grow: 1;
+}
+
+.code-addition {
+  background-color: rgba(40, 167, 69, 0.2);
+}
+
+.code-deletion {
+  background-color: rgba(220, 53, 69, 0.2);
+}
