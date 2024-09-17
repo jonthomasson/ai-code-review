@@ -25,7 +25,7 @@ export class AuthProviderFactory {
         return new TwitterAuthProvider();
 
       case 'microsoft':
-        const microsoftProvider = new OAuthProvider('microsoft.com');
+        const microsoftProvider = new OAuthProvider('microsoft.com'); //for reference: https://firebase.google.com/docs/auth/web/microsoft-oauth
         microsoftProvider.addScope('email');
         microsoftProvider.addScope('openid');
         microsoftProvider.addScope('User.Read');
