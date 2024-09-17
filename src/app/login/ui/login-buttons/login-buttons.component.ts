@@ -11,7 +11,7 @@ import { AuthProviderType } from '@shared/models/auth';
 })
 export class LoginButtonsComponent {
   @Output() login = new EventEmitter<AuthProviderType>();
-  availableProviders: AuthProviderType[] = ['github', 'google', 'facebook', 'apple', 'twitter', 'yahoo', 'microsoft'];
+  availableProviders: AuthProviderType[] = ['github', 'google', 'microsoft'];
 
   onLoginClick(providerType: AuthProviderType) {
     this.login.emit(providerType); 

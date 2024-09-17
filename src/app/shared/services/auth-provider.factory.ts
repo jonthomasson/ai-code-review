@@ -22,7 +22,10 @@ export class AuthProviderFactory {
         return new TwitterAuthProvider();
       case 'microsoft':
         const microsoftProvider = new OAuthProvider('microsoft.com');
-        microsoftProvider.addScope('User.Read'); 
+        microsoftProvider.addScope('email');
+        microsoftProvider.addScope('openid');
+        microsoftProvider.addScope('User.Read');
+        microsoftProvider.setCustomParameters({ prompt: 'consent' });
         return microsoftProvider;
       case 'apple':
         const appleProvider = new OAuthProvider('microsoft.com');

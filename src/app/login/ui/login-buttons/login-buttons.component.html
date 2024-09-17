@@ -1,6 +1,6 @@
 <div class="d-grid gap-2 mb-3">
   <ng-container *ngFor="let provider of availableProviders">
-    <button [ngClass]="getButtonClass(provider)" type="button" (click)="onLoginClick(provider)">
+    <button [ngClass]="getButtonClass(provider)" type="button" (click)="onLoginClick(provider)" title="Continue with {{ provider | titlecase }}">
       <i [ngClass]="getIconClass(provider)"></i>
       Continue with {{ provider | titlecase }}
     </button>
