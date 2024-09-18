@@ -29,7 +29,7 @@ export class GithubService {
   private pullRequests$ = toObservable(this.selectedRepository).pipe(
     filter(Boolean),
     switchMap(repo =>
-      this.http.get<GitHubPullRequest[]>(`${this.apiBase}/repos/${repo.owner}/${repo.name}/pulls`)
+      this.http.get<GitHubPullRequest[]>(`${this.apiBase}/repos/${repo.owner.login}/${repo.name}/pulls`)
     ));
   pullRequests = toSignal(this.pullRequests$, { initialValue: [] as GitHubPullRequest[] });
   selectedPullRequest = signal<GitHubPullRequest | undefined>(undefined);

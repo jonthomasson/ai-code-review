@@ -87,19 +87,19 @@ export class HomeComponent {
 
 
   onPRChange(event: any) {
-    this.aiReviewResult = null;
-    const prUrl = event.target.value;
-    const selectedPR = this.pullRequests()?.find(pr => pr.url === prUrl);
-    this.selectedPR = selectedPR;
+    //this.aiReviewResult = null;
+    //const prUrl = event.target.value;
+    //const selectedPR = this.pullRequests()?.find(pr => pr.url === prUrl);
+    //this.selectedPR = selectedPR;
 
-    // Fetch file changes and additional PR details
-    if (this.selectedPR) {
-      this.getPullRequestFiles(this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
+    //// Fetch file changes and additional PR details
+    //if (this.selectedPR) {
+    //  this.getPullRequestFiles(this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
 
-      // Optionally fetch more detailed information about the selected pull request if needed
-      this.getPullRequestDetails(this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
+    //  // Optionally fetch more detailed information about the selected pull request if needed
+    //  this.getPullRequestDetails(this.selectedPR.base.user.login, this.selectedPR.base.repo.name, this.selectedPR.number);
 
-    }
+    //}
   }
 
   getPullRequestDetails(owner: string, repo: string, pullNumber: number) {
