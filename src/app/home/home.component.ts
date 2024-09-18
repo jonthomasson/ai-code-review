@@ -17,25 +17,25 @@ import { PrViewComponent } from './ui/pr-view/pr-view.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   private authService: AuthService = inject(AuthService);
+  private githubService: GithubService = inject(GithubService);
 
-  repositories$: Observable<GitHubRepository[]> | undefined;
-  pullRequests: any[] = [];
+  repositories = this.githubService.repositories;
+  repository = this.githubService.selectedRepository;
+  pullRequests = this.githubService.pullRequests;
+  pullRequest = this.githubService.selectedPullRequest;
+
+  //pullRequests: any[] = [];
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
   aiReviewResult: { standards: string, score: number } | null = null;
   hasGithub = this.authService.hasGithub;
 
-  constructor(private githubService: GithubService, private aiReviewService: AiReviewService) {
+  constructor(private aiReviewService: AiReviewService) {
    
   }
 
-  ngOnInit() {
-    if (this.hasGithub()) {
-      this.repositories$ = this.githubService.getGitHubRepositories();
-    }
-  }
 
   onRepoUrlInput(event: any) {
     const repoUrl = event.target.value;
@@ -53,14 +53,7 @@ export class HomeComponent implements OnInit {
     this.pullRequestFiles = [];
     const repoName = event.target.value;
 
-    // Subscribe to the repositories$ observable
-    this.repositories$?.subscribe(repositories => {
-      const selectedRepo = repositories.find(repo => repo.name === repoName);
-
-      if (selectedRepo) {
-        this.getPullRequests(selectedRepo.owner.login, repoName);
-      }
-    });
+    this.githubService.repositorySelected(repoName);
   }
 
 
@@ -96,7 +89,7 @@ export class HomeComponent implements OnInit {
   onPRChange(event: any) {
     this.aiReviewResult = null;
     const prUrl = event.target.value;
-    const selectedPR = this.pullRequests.find(pr => pr.url === prUrl);
+    const selectedPR = this.pullRequests()?.find(pr => pr.url === prUrl);
     this.selectedPR = selectedPR;
 
     // Fetch file changes and additional PR details
