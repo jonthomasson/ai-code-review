@@ -1,21 +1,33 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CodeReviewResponse, FileChanges } from '@shared/models/ai-review';
-import { AuthService } from '@shared/services/auth.service';
+import { filter, switchMap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { CodeReviewResponse } from '@shared/models/ai-review';
+import { GithubService } from './github.service';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiReviewService {
   apiBase: string = environment.apiUrl;
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  http = inject(HttpClient);
+  githubService = inject(GithubService);
 
-  async submitCodePR(fileChanges: FileChanges[]): Promise<Observable<CodeReviewResponse>> {  
-    const firebaseToken = await this.authService.getFirebaseToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${firebaseToken}`);
+  pullRequestFiles = this.githubService.pullRequestFiles;
+  private codeReviewResponse$ = toObservable(this.pullRequestFiles).pipe(
+    filter(Boolean),
+    filter(prFiles => prFiles.length > 0),
+    switchMap(prFiles =>
+      this.http.post<CodeReviewResponse>(`${this.apiBase}/review`, prFiles)
+    )
+  );
 
-    return this.http.post<CodeReviewResponse>(`${this.apiBase}/review`, fileChanges, { headers });
-  }
+  codeReviewResponses = toSignal(this.codeReviewResponse$, { initialValue: {} as CodeReviewResponse });
+
+  //constructor() { }
+
+  //async submitCodePR(fileChanges: FileChanges[]): Promise<Observable<CodeReviewResponse>> {  
+  //  return this.http.post<CodeReviewResponse>(`${this.apiBase}/review`, fileChanges);
+  //}
 }

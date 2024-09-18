@@ -55,17 +55,17 @@ export class HomeComponent {
   }
 
   getPullRequestFiles(owner: string, repo: string, pullNumber: number) {
-    this.githubService.getPullRequestFiles(owner, repo, pullNumber)
-      .subscribe({
-        next: (data: any) => {
-          this.pullRequestFiles = data;
+    //this.githubService.getPullRequestFiles(owner, repo, pullNumber)
+    //  .subscribe({
+    //    next: (data: any) => {
+    //      this.pullRequestFiles = data;
 
-          this.sendFileChangesToApi(this.pullRequestFiles);
-        },
-        error: (error) => {
-          console.error('Error fetching pull request files:', error);
-        }
-      });
+    //      this.sendFileChangesToApi(this.pullRequestFiles);
+    //    },
+    //    error: (error) => {
+    //      console.error('Error fetching pull request files:', error);
+    //    }
+    //  });
   }
 
   onPRChange(event: any) {
@@ -86,37 +86,37 @@ export class HomeComponent {
     //}
   }
 
-  getPullRequestDetails(owner: string, repo: string, pullNumber: number) {
-    this.githubService.getPullRequestDetails(owner, repo, pullNumber)
-      .subscribe({
-        next: (data) => {
-          this.selectedPR = { ...this.selectedPR, ...data };
-        },
-        error: (error) => {
-          console.error('Error fetching pull request details:', error);
-        }
-      });
-  }
+  //getPullRequestDetails(owner: string, repo: string, pullNumber: number) {
+  //  this.githubService.getPullRequestDetails(owner, repo, pullNumber)
+  //    .subscribe({
+  //      next: (data) => {
+  //        this.selectedPR = { ...this.selectedPR, ...data };
+  //      },
+  //      error: (error) => {
+  //        console.error('Error fetching pull request details:', error);
+  //      }
+  //    });
+  //}
 
   sendFileChangesToApi(fileChanges: any[]) {
 
     // Map over fileChanges to extract only the filename and patch
-    const fileChangePayload = fileChanges.map(file => ({
-      fileName: file.filename,
-      patch: file.patch
-    }));
+    //const fileChangePayload = fileChanges.map(file => ({
+    //  fileName: file.filename,
+    //  patch: file.patch
+    //}));
 
-    this.aiReviewService.submitCodePR(fileChangePayload).then(submission$ => {
-      submission$.subscribe({
-        next: (response: any) => {
-          this.mapAiSuggestionsToFiles(response.codeReview);
-          this.aiReviewResult = { standards: response.standards, score: response.score };
-        },
-        error: (error) => {
-          console.error('Error sending file changes to API:', error);
-        }
-      });
-    });
+    //this.aiReviewService.submitCodePR(fileChangePayload).then(submission$ => {
+    //  submission$.subscribe({
+    //    next: (response: any) => {
+    //      this.mapAiSuggestionsToFiles(response.codeReview);
+    //      this.aiReviewResult = { standards: response.standards, score: response.score };
+    //    },
+    //    error: (error) => {
+    //      console.error('Error sending file changes to API:', error);
+    //    }
+    //  });
+    //});
   }
 
   mapAiSuggestionsToFiles(aiCodeReviews: any[]) {

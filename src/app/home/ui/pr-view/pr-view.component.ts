@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, input } from '@angular/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { GithubService } from '../../../shared/services/github.service';
+import { GithubService } from '@shared/services/github.service';
+import { AiReviewService } from '@shared/services/ai-review.service';
 
 @Component({
   selector: 'app-pr-view',
@@ -12,7 +13,10 @@ import { GithubService } from '../../../shared/services/github.service';
 })
 export class PrViewComponent {
   private githubService: GithubService = inject(GithubService);
+  private aiReviewService: AiReviewService = inject(AiReviewService);
+
   pullRequestFiles = this.githubService.pullRequestFiles;
+  codeReviewResponses = this.aiReviewService.codeReviewResponses;
   isLoading: boolean = true;
   constructor() {
     effect(() => {

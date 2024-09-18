@@ -12,7 +12,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
   if (isGitHubRequest && authService.getOauthToken()) {
     const gitHubToken = authService.getOauthToken();
     if (gitHubToken && gitHubToken.trim() !== '') {
-      //console.log('Using GitHub token for:', req.url);
+      console.log('Using GitHub token for:', req.url);
       const clonedReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${gitHubToken}`)
       });
@@ -21,10 +21,11 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
   }
 
   // For non-GitHub requests, use Firebase token
-  //console.log('Using Firebase token for:', req.url);
+  console.log('Using Firebase token for:', req.url);
   return from(authService.getFirebaseToken()).pipe(
     switchMap(firebaseToken => {
       if (firebaseToken && firebaseToken.trim() !== '') {
+        console.log(firebaseToken);
         const clonedReq = req.clone({
           headers: req.headers.set('Authorization', `Bearer ${firebaseToken}`)
         });
