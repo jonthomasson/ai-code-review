@@ -1,4 +1,4 @@
-<div *ngIf="selectedPR()" class="row mb-4">
+<div *ngIf="pullRequest()" class="row mb-4">
   <div class="col-md-12">
     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#prDetails" aria-expanded="false" aria-controls="prDetails">
       Pull Request Details <i class="bi bi-chevron-down"></i>
@@ -13,17 +13,17 @@
         <div class="card-header">Pull Request Information</div>
         <div class="card-body row">
           <div class="col-md-6">
-            <h5 class="card-title">{{ selectedPR().title }}</h5>
-            <p class="card-text"><strong>Description:</strong> {{ selectedPR().body || 'No description provided.' }}</p>
-            <p class="card-text"><strong>Author:</strong> {{ selectedPR().user.login }}</p>
+            <h5 class="card-title">{{ pullRequest()?.title }}</h5>
+            <p class="card-text"><strong>Description:</strong> {{ pullRequest()?.body || 'No description provided.' }}</p>
+            <p class="card-text"><strong>Author:</strong> {{ pullRequest()?.user?.login }}</p>
           </div>
           <div class="col-md-6">
-            <p class="card-text"><strong>Created At:</strong> {{ selectedPR().created_at | date:'medium' }}</p>
-            <p class="card-text"><strong>Last Updated:</strong> {{ selectedPR().updated_at | date:'medium' }}</p>
-            <p class="card-text"><strong>State:</strong> {{ selectedPR().state }}</p>
-            <p class="card-text"><strong>Number of Commits:</strong> {{ selectedPR().commits }}</p>
-            <p class="card-text"><strong>Number of Files Changed:</strong> {{ selectedPR().changed_files }}</p>
-            <a [href]="selectedPR().html_url" class="btn btn-primary" target="_blank">View on GitHub</a>
+            <p class="card-text"><strong>Created At:</strong> {{ pullRequest()?.created_at | date:'medium' }}</p>
+            <p class="card-text"><strong>Last Updated:</strong> {{ pullRequest()?.updated_at | date:'medium' }}</p>
+            <p class="card-text"><strong>State:</strong> {{ pullRequest()?.state }}</p>
+            <p class="card-text"><strong>Number of Commits:</strong> {{ pullRequest()?.commits }}</p>
+            <p class="card-text"><strong>Number of Files Changed:</strong> {{ pullRequest()?.changed_files }}</p>
+            <a [href]="pullRequest()?.html_url" class="btn btn-primary" target="_blank">View on GitHub</a>
           </div>
         </div>
       </div>

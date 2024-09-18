@@ -20,22 +20,20 @@ import { PrViewComponent } from './ui/pr-view/pr-view.component';
 export class HomeComponent {
   private authService: AuthService = inject(AuthService);
   private githubService: GithubService = inject(GithubService);
+  private aiReviewService: AiReviewService = inject(AiReviewService);
+
 
   repositories = this.githubService.repositories;
   repository = this.githubService.selectedRepository;
   pullRequests = this.githubService.pullRequests;
   pullRequest = this.githubService.selectedPullRequest;
 
-  //pullRequests: any[] = [];
   selectedPR: any = null;
   pullRequestFiles: any[] = [];
   aiReviewResult: { standards: string, score: number } | null = null;
   hasGithub = this.authService.hasGithub;
 
-  constructor(private aiReviewService: AiReviewService) {
-   
-  }
-
+  constructor() {}
 
   onRepoUrlInput(event: any) {
     const repoUrl = event.target.value;
@@ -43,7 +41,7 @@ export class HomeComponent {
     if (match) {
       const owner = match[1];
       const repo = match[2];
-      this.getPullRequests(owner, repo);
+      //this.getPullRequests(owner, repo);
     }
   }
 
@@ -55,8 +53,6 @@ export class HomeComponent {
 
     this.githubService.repositorySelected(repoName);
   }
-
-
 
   getPullRequestFiles(owner: string, repo: string, pullNumber: number) {
     this.githubService.getPullRequestFiles(owner, repo, pullNumber)
@@ -72,25 +68,13 @@ export class HomeComponent {
       });
   }
 
-
-  getPullRequests(owner: string, repo: string) {
-    this.githubService.getPullRequests(owner, repo)
-      .subscribe({
-        next: (data: any) => {
-          this.pullRequests = data;
-        },
-        error: (error) => {
-          console.error('Error fetching pull requests:', error);
-        }
-      });
-  }
-
-
   onPRChange(event: any) {
-    //this.aiReviewResult = null;
-    //const prUrl = event.target.value;
+    this.aiReviewResult = null;
+
+    this.githubService.pullRequestSelected(event.target.value);
     //const selectedPR = this.pullRequests()?.find(pr => pr.url === prUrl);
     //this.selectedPR = selectedPR;
+
 
     //// Fetch file changes and additional PR details
     //if (this.selectedPR) {

@@ -48,6 +48,11 @@ export class GithubService {
     this.selectedRepository.set(foundRepo);
   }
 
+  pullRequestSelected(prUrl: string) {
+    const foundPr = this.pullRequests()?.find(pr => pr.url === prUrl);;
+    this.selectedPullRequest.set(foundPr);
+  }
+
   getGitHubRepositories(): Observable<GitHubRepository[]> {
     return this.http.get<GitHubRepository[]>(`${this.apiBase}/user/repos?per_page=100&type=all`)
   }

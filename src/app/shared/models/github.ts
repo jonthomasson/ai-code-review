@@ -26,4 +26,5 @@ export interface GitHubPullRequest {
 export interface GitHubPullRequestFile {
   filename: string;
   patch: string;
+  aiReview: any;
 }
