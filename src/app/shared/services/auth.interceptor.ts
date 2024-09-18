@@ -29,6 +29,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
         const clonedReq = req.clone({
           headers: req.headers.set('Authorization', `Bearer ${firebaseToken}`)
         });
+        //console.log(clonedReq);
         return next(clonedReq);
       }
       // If no Firebase token is available, continue with the original request
