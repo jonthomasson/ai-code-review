@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { GithubService } from '@shared/services/github.service';
+import { AiReviewService } from '@shared/services/ai-review.service';
 
 @Component({
   selector: 'app-pr-details',
@@ -10,9 +11,10 @@ import { GithubService } from '@shared/services/github.service';
   styleUrl: './pr-details.component.css'
 })
 export class PrDetailsComponent {
+  private aiReviewService: AiReviewService = inject(AiReviewService);
   private githubService: GithubService = inject(GithubService);
-  aiReviewResult = input<any>();
   pullRequest = this.githubService.selectedPullRequest;
+  codeReviewResponses = this.aiReviewService.codeReviewResponses;
 
   constructor() { }
 }
