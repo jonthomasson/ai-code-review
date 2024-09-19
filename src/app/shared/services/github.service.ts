@@ -53,22 +53,6 @@ export class GithubService {
     this.selectedPullRequest.set(foundPr);
   }
 
-  //getGitHubRepositories(): Observable<GitHubRepository[]> {
-  //  return this.http.get<GitHubRepository[]>(`${this.apiBase}/user/repos?per_page=100&type=all`)
-  //}
-
-  //getPullRequests(owner: string, repo: string): Observable<GitHubPullRequest[]> {
-  //  return this.http.get<GitHubPullRequest[]>(`${this.apiBase}/repos/${owner}/${repo}/pulls`);
-  //}
-
-  //getPullRequestFiles(owner: string, repo: string, pullNumber: number): Observable<GitHubPullRequestFile[]> {
-  //  return this.http.get<GitHubPullRequestFile[]>(`${this.apiBase}/repos/${owner}/${repo}/pulls/${pullNumber}/files`);
-  //}
-
-  //getPullRequestDetails(owner: string, repo: string, pullNumber: number): Observable<GitHubPullRequest> {
-  //  return this.http.get<GitHubPullRequest>(`${this.apiBase}/repos/${owner}/${repo}/pulls/${pullNumber}`);
-  //}
-
   private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {

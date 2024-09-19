@@ -31,9 +31,4 @@ export class AiReviewService {
 
   codeReviewResponses = toSignal(this.codeReviewResponse$, { initialValue: {} as CodeReviewResponse });
 
-  //constructor() { }
-
-  //async submitCodePR(fileChanges: FileChanges[]): Promise<Observable<CodeReviewResponse>> {  
-  //  return this.http.post<CodeReviewResponse>(`${this.apiBase}/review`, fileChanges);
-  //}
 }
