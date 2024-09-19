@@ -3,7 +3,7 @@
     <span>Standard: </span>{{codeReviewResponses().standards}}
     <span>Score: </span>{{codeReviewResponses().score}}
   </div>
-  <div class="row mb-4" *ngFor="let file of pullRequestFiles()">
+  <div class="row mb-4" *ngFor="let file of pullRequestCodeReview()">
     <div class="col-md-6">
       <div class="card h-100">
         <div class="card-header">
@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-md-6">
-      <ngx-skeleton-loader *ngIf="isLoading"
+      <ngx-skeleton-loader *ngIf="isLoading()"
                            appearance="custom-content"
                            [theme]="{
    'background-color': 'rgba(255, 255, 255, 0.1)',
@@ -36,7 +36,7 @@
  }">
       </ngx-skeleton-loader>
 
-      <div class="card h-100" *ngIf="!isLoading">
+      <div class="card h-100" *ngIf="!isLoading()">
         <div class="card-header">
           AI Review for {{ file.filename }}
         </div>
