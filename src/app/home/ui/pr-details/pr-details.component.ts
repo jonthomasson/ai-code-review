@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { GithubService } from '@shared/services/github.service';
 import { AiReviewService } from '@shared/services/ai-review.service';
 

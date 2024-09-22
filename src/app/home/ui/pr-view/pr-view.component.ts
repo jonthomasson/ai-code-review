@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { GithubService } from '@shared/services/github.service';
 import { AiReviewService } from '@shared/services/ai-review.service';
-import { GitHubPullRequestFile } from '@shared/models/github';
 
 @Component({
   selector: 'app-pr-view',
