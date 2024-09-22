@@ -22,17 +22,15 @@ export class PrSelectComponent {
     const repoUrl = event.target.value;
     const match = repoUrl.match(/^https:\/\/github\.com\/([^\/]+)\/([^\/]+)$/);
     if (match) {
-      const owner = match[1];
-      const repo = match[2];
-      //this.getPullRequests(owner, repo);
+      const repoOwner = match[1];
+      const repoName = match[2];
       //call repositorySelected
-
+      this.githubService.repositorySelected(repoName, repoOwner);
     }
   }
 
   onRepoChange(event: any) {
     const repoName = event.target.value;
-
     this.githubService.repositorySelected(repoName);
   }
 

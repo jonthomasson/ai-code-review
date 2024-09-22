@@ -15,7 +15,7 @@ export class AuthService {
 
   currentUser = signal<User | null>(null);
   hasGithub = computed<boolean>(() => this.currentUser()?.providerData.some(provider => provider.providerId === 'github.com') || false);
-  
+
   constructor(private authProviderFactory: AuthProviderFactory, private toastr: ToastrService) {
     //setup auth observer
     onAuthStateChanged(this.auth, (user) => {
@@ -47,6 +47,10 @@ export class AuthService {
     return sessionStorage.getItem('oauthToken');
   }
 
+  public getProviderType(): AuthProviderType {
+    return sessionStorage.getItem('authProvider') as AuthProviderType;
+  }
+
   
   public login(providerType: AuthProviderType) {
     const provider = this.authProviderFactory.createAuthProvider(providerType);
@@ -59,6 +63,7 @@ export class AuthService {
 
         if (token) {
           sessionStorage.setItem('oauthToken', token); //oauth token can be used later when using github api.
+          sessionStorage.setItem('authProvider', providerType);
         }
         this.toastr.success(`Logged in successfully with ${providerType}`);
       })

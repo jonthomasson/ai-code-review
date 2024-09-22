@@ -53,11 +53,28 @@ export class GithubService {
   pullRequestFiles = toSignal(this.pullRequestFiles$, { initialValue: [] as GitHubPullRequestFile[] });
 
   // Method to select a repository and reset pull requests
-  repositorySelected(repoName: string) {
-    const foundRepo = this.repositories()?.find((r) => r.name === repoName);
-    this.selectedPullRequest.set(undefined); // Reset selected pull request
-    this.selectedRepository.set(foundRepo); // Set the selected repository
+  repositorySelected(repoName: string, ownerName: string = '') {
+    let foundRepo: GitHubRepository | undefined;
+
+    if (ownerName !== '') {
+      foundRepo = {
+        id: 0, 
+        name: repoName,
+        owner: {
+          login: ownerName
+        }
+      };
+    } else {
+      foundRepo = this.repositories()?.find((r) => r.name === repoName);
+    }
+
+    // Reset selected pull request
+    this.selectedPullRequest.set(undefined);
+
+    // Set the selected repository
+    this.selectedRepository.set(foundRepo);
   }
+
 
   // Method to select a pull request
   pullRequestSelected(prUrl: string) {
