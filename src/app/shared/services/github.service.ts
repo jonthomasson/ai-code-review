@@ -36,7 +36,7 @@ export class GithubService {
   selectedPullRequest = signal<GitHubPullRequest | undefined>(undefined);
 
   // Pull Request Files
-  pullRequestLoading = signal<boolean>(false);
+  pullRequestLoading = signal<boolean>(true);
   private pullRequestFiles$ = toObservable(this.selectedPullRequest).pipe(
     filter(Boolean), // Ensure the selected pull request is not undefined or null
     switchMap(pull => {

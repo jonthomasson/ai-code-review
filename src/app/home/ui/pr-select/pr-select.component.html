@@ -1,1 +1,26 @@
-<p>pr-select works!</p>
+ <!-- Display Google login-specific text box for repository URL -->
+<div class="row mb-4">
+  <ng-content *ngIf="!hasGithub() else githubUserTemplate">
+    <div class="col-md-6 mb-3 mb-md-0">
+      <input type="text" class="form-control" id="repoUrl" (input)="onRepoUrlInput($event)" placeholder="https://github.com/user/repo">
+    </div>
+  </ng-content>
+
+  <!-- Display GitHub user-specific repository dropdown -->
+  <ng-template #githubUserTemplate>
+    <div class="col-md-6 mb-3 mb-md-0">
+      <select class="form-select" aria-label="Select Repository" (change)="onRepoChange($event)">
+        <option selected>Select Repository</option>
+        <option *ngFor="let repo of repositories()" [value]="repo.name">{{ repo.name }}</option>
+      </select>
+    </div>
+  </ng-template>
+
+  <!-- Dropdown for selecting pull requests -->
+  <div class="col-md-6">
+    <select class="form-select" aria-label="Select Pull Request" *ngIf="pullRequests().length > 0" (change)="onPRChange($event)">
+      <option selected>Select Pull Request</option>
+      <option *ngFor="let pr of pullRequests()" [value]="pr.url">{{ pr.title }}</option>
+    </select>
+  </div>
+</div>

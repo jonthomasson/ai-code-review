@@ -17,7 +17,7 @@ export class AiReviewService {
   pullRequestFiles = this.githubService.pullRequestFiles;
 
   // Signal to track loading state
-  reviewLoading = signal<boolean>(false);
+  reviewLoading = signal<boolean>(true);
 
   // Observable pipeline for code review
   private codeReviewResponse$ = toObservable(this.pullRequestFiles).pipe(
