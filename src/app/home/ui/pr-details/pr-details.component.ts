@@ -15,6 +15,7 @@ export class PrDetailsComponent {
   private githubService: GithubService = inject(GithubService);
   pullRequest = this.githubService.selectedPullRequest;
   codeReviewResponses = this.aiReviewService.codeReviewResponses;
+  isLoadingReview = this.aiReviewService.reviewLoading;
 
   constructor() { }
 }

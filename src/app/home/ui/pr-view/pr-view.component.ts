@@ -3,23 +3,7 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { GithubService } from '@shared/services/github.service';
 import { AiReviewService } from '@shared/services/ai-review.service';
-
-export interface CodeReviewResponse {
-  standards: string;
-  score: number;
-  codeReview: CodeReview[];
-}
-
-export interface CodeReview {
-  fileName: string;
-  review: string;
-}
-
-export interface GitHubPullRequestFile {
-  filename: string;
-  patch: string;
-  aiReview?: string;  // Make aiReview optional to start
-}
+import { GitHubPullRequestFile } from '@shared/models/github';
 
 @Component({
   selector: 'app-pr-view',
@@ -33,21 +17,22 @@ export class PrViewComponent {
   private aiReviewService: AiReviewService = inject(AiReviewService);
 
   pullRequestFiles = this.githubService.pullRequestFiles;
+  isLoadingPullRequest = this.githubService.pullRequestLoading;
+  isLoadingReview = this.aiReviewService.reviewLoading;
+
+  pullRequest = this.githubService.selectedPullRequest;
   codeReviewResponses = this.aiReviewService.codeReviewResponses;
   pullRequestCodeReview = computed<GitHubPullRequestFile[] | undefined>(() =>
     this.pullRequestFiles()?.map((file) => {
       const review = this.codeReviewResponses()?.codeReview?.find((review) => review.fileName === file.filename);
-      if (review) {
-        file.aiReview = review.review;
-      } else {
-        file.aiReview = 'Review Pending';  
-      }
+      file.aiReview = review ? review.review : 'Review Pending';
       return file;
     })
   );
 
   isLoading = computed<boolean>(() =>
-    this.pullRequestCodeReview()?.some((file) => !file.aiReview || file.aiReview === 'Review Pending') || false
+    this.isLoadingPullRequest() || this.isLoadingReview()
   );
- 
+
+
 }
