@@ -1,10 +1,11 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { filter, map, switchMap, tap, catchError, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { CodeReviewResponse } from '@shared/models/ai-review';
 import { GithubService } from './github.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { GitHubPullRequestFile } from '../models/github';
 
 @Injectable({
   providedIn: 'root'
@@ -44,4 +45,12 @@ export class AiReviewService {
 
   // Signal to track code review responses
   codeReviewResponses = toSignal(this.codeReviewResponse$, { initialValue: {} as CodeReviewResponse });
+
+  pullRequestCodeReview = computed<GitHubPullRequestFile[] | undefined>(() =>
+    this.pullRequestFiles()?.map((file) => {
+      const review = this.codeReviewResponses()?.codeReview?.find((review) => review.fileName === file.filename);
+      file.aiReview = review ? review.review : 'Review Pending';
+      return file;
+    })
+  );
 }

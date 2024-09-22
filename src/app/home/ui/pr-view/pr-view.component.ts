@@ -16,23 +16,13 @@ export class PrViewComponent {
   private githubService: GithubService = inject(GithubService);
   private aiReviewService: AiReviewService = inject(AiReviewService);
 
-  pullRequestFiles = this.githubService.pullRequestFiles;
   isLoadingPullRequest = this.githubService.pullRequestLoading;
   isLoadingReview = this.aiReviewService.reviewLoading;
 
   pullRequest = this.githubService.selectedPullRequest;
-  codeReviewResponses = this.aiReviewService.codeReviewResponses;
-  pullRequestCodeReview = computed<GitHubPullRequestFile[] | undefined>(() =>
-    this.pullRequestFiles()?.map((file) => {
-      const review = this.codeReviewResponses()?.codeReview?.find((review) => review.fileName === file.filename);
-      file.aiReview = review ? review.review : 'Review Pending';
-      return file;
-    })
-  );
+  pullRequestCodeReview = this.aiReviewService.pullRequestCodeReview;
 
   isLoading = computed<boolean>(() =>
     this.isLoadingPullRequest() || this.isLoadingReview()
   );
-
-
 }
