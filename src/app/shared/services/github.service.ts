@@ -18,7 +18,7 @@ export class GithubService {
   // Repositories
   private repositories$ = this.http.get<GitHubRepository[]>(`${this.apiBase}/user/repos?per_page=100&type=all`).pipe(
     shareReplay(1), // Cache the result and replay to new subscribers
-    catchError(this.handleError) // Error handling
+    catchError(this.handleError) 
   );
   repositories = toSignal(this.repositories$, { initialValue: [] as GitHubRepository[] });
   selectedRepository = signal<GitHubRepository | undefined>(undefined);
@@ -52,7 +52,6 @@ export class GithubService {
   );
   pullRequestFiles = toSignal(this.pullRequestFiles$, { initialValue: [] as GitHubPullRequestFile[] });
 
-  // Method to select a repository and reset pull requests
   repositorySelected(repoName: string, ownerName: string = '') {
     let foundRepo: GitHubRepository | undefined;
 
@@ -68,21 +67,16 @@ export class GithubService {
       foundRepo = this.repositories()?.find((r) => r.name === repoName);
     }
 
-    // Reset selected pull request
     this.selectedPullRequest.set(undefined);
 
-    // Set the selected repository
     this.selectedRepository.set(foundRepo);
   }
 
-
-  // Method to select a pull request
   pullRequestSelected(prUrl: string) {
     const foundPr = this.pullRequests()?.find(pr => pr.url === prUrl);
-    this.selectedPullRequest.set(foundPr); // Set the selected pull request
+    this.selectedPullRequest.set(foundPr);
   }
 
-  // Error handling method for HTTP errors
   private handleError(err: HttpErrorResponse): Observable<never> {
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {

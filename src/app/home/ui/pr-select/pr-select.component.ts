@@ -24,7 +24,6 @@ export class PrSelectComponent {
     if (match) {
       const repoOwner = match[1];
       const repoName = match[2];
-      //call repositorySelected
       this.githubService.repositorySelected(repoName, repoOwner);
     }
   }

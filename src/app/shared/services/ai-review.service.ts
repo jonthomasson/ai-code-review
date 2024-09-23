@@ -17,10 +17,9 @@ export class AiReviewService {
 
   pullRequestFiles = this.githubService.pullRequestFiles;
 
-  // Signal to track loading state
   reviewLoading = signal<boolean>(true);
 
-  // Observable pipeline for code review
+  //declare observables as private
   private codeReviewResponse$ = toObservable(this.pullRequestFiles).pipe(
     filter(Boolean), // Ensure prFiles is defined and truthy
     filter(prFiles => prFiles.length > 0), // Ensure prFiles is not empty
@@ -31,7 +30,7 @@ export class AiReviewService {
       }))
     ),
     switchMap(mappedFiles => {
-      this.reviewLoading.set(true); // Set loading state to true before making the HTTP request
+      this.reviewLoading.set(true); 
       return this.http.post<CodeReviewResponse>(`${this.apiBase}/review`, mappedFiles).pipe(
         tap(() => this.reviewLoading.set(false)), // Set loading state to false after request completes
         catchError(err => {
@@ -43,8 +42,8 @@ export class AiReviewService {
     })
   );
 
-  // Signal to track code review responses
   codeReviewResponses = toSignal(this.codeReviewResponse$, { initialValue: {} as CodeReviewResponse });
+
 
   pullRequestCodeReview = computed<GitHubPullRequestFile[] | undefined>(() =>
     this.pullRequestFiles()?.map((file) => {
