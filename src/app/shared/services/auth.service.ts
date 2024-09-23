@@ -1,7 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Auth, signOut } from '@angular/fire/auth';
+import { Auth, signOut, OAuthProvider, User, onAuthStateChanged, signInWithPopup } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { OAuthProvider, User, onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { AuthProviderType } from '@shared/models/auth';
 import { AuthProviderFactory } from '@shared/services/auth-provider.factory';
 import { ToastrService } from 'ngx-toastr';
