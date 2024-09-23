@@ -10,7 +10,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
   const isGitHubRequest = req.url.includes('github.com');
   const authProvider = authService.getProviderType();
 
-  if (isGitHubRequest && authService.getOauthToken()) {
+  if (isGitHubRequest) {
     const gitHubToken = authService.getOauthToken();
     if (gitHubToken && gitHubToken.trim() !== '' && authProvider === 'github') {
       //console.log('Using GitHub token for:', req.url);
