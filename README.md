@@ -1,10 +1,10 @@
-# GithubAiReview
+# CodeAiReview
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.4.
 
 ## Overview
 
-The **GithubAiReview** project integrates Firebase authentication for signing in with GitHub, retrieves repository and pull request data from the GitHub API, and sends pull request file changes to a .NET Core API for AI-driven code review suggestions.
+The **CodeAiReview** project integrates Firebase authentication for signing in with GitHub, retrieves repository and pull request data from the GitHub API, and sends pull request file changes to a .NET Core API for AI-driven code review suggestions.
 
 ## Prerequisites
 
@@ -20,6 +20,16 @@ Before running the project, make sure you have the following:
 2. Enable GitHub as a sign-in provider under **Authentication** > **Sign-in method**.
 3. Register an OAuth app in GitHub, providing the Firebase callback URL.
 4. Add the **GitHub Client ID** and **Client Secret** to Firebase.
+5. Copy the firebaseConfig over from Firebase Console to your environment file like this:
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:5103/api',
+  firebaseConfig: {
+    
+  }
+};
+
 
 ## Development server
 
