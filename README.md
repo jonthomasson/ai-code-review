@@ -28,7 +28,8 @@ export const environment = {
   firebaseConfig: {
     
   }
-};```
+};
+```
 
 
 ## Development server
